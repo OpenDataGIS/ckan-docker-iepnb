@@ -65,4 +65,4 @@ RUN for d in $APP_DIR/patches/*; do \
     fi ; \
     done
 
-CMD ["/srv/app/start_ckan.sh"]
+CMD $APP_DIR/start_ckan.sh
