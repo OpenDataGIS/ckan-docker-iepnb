@@ -1,8 +1,7 @@
-name: Build CKAN Docker auxiliary images 
+name: Build CKAN Docker auxiliary images - master
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
+  # Trigger the workflow on push or pull request
   push:
     branches:
       - master
@@ -22,7 +21,7 @@ jobs:
     -  name: Set up QEMU
        uses: docker/setup-qemu-action@v2
 
-    -  name: Apache build
+    -  name: Apache HTTP Server build
        uses: docker/build-push-action@v4
        with:
           context: ./apache
@@ -50,6 +49,6 @@ jobs:
        uses: docker/build-push-action@v4
        with:
           context: ./ckan-pycsw
-          file: ./solr/Dockerfile
+          file: ./ckan-pycsw/Dockerfile
           push: false
-          tags: opendatagis/ckan-docker-solr:test-build-only
+          tags: opendatagis/ckan-docker-pycsw:test-build-only
