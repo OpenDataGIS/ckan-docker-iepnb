@@ -1,6 +1,6 @@
-<h1 align="center">CKAN Docker Compose - Open Data & GIS</h1>
+<h1 align="center">CKAN Docker Compose - IEPNB</h1>
 <p align="center">
-<a href="https://github.com/OpenDataGIS/ckan"><img src="https://img.shields.io/badge/Docker%20CKAN-2.9.8-brightgreen" alt="CKAN Versions"></a>
+<a href="https://github.com/OpenDataGIS/ckan-docker-iepnb"><img src="https://img.shields.io/badge/Docker%20CKAN-2.9.8-brightgreen" alt="CKAN Versions"></a>
 
 
 <p align="center">
@@ -18,43 +18,59 @@
 * [Docker](https://docs.docker.com/get-docker/)
 
 ## Overview
-Contains Docker images for the different components of CKAN Cloud and a Docker compose environment (based on [ckan](https://github.com/ckan/ckan)) for development and testing Open Data portals.
+Contains Docker images for the different components of CKAN Cloud and a Docker compose environment (based on [ckan](https://github.com/ckan/ckan)) for development and testing the [IEPNB](https://des.iepnb.es/catalogo) Open Data portal.
 
 >**Warning**:<br>
->This is a **custom installation of Docker Compose** with specific extensions for spatial data and [GeoDCAT-AP](https://github.com/SEMICeu/GeoDCAT-AP)/[INSPIRE](https://github.com/INSPIRE-MIF/technical-guidelines) metadata [profiles](https://en.wikipedia.org/wiki/Geospatial_metadata). For official installations, please have a look: [CKAN documentation: Installation](https://docs.ckan.org/en/latest/maintaining/installing/index.html).
+>This is a **custom installation of Docker Compose** with specific extensions for the [IEPNB](https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-espanol-patrimonio-natural-biodiv/default.aspx), spatial data and [GeoDCAT-AP](https://github.com/SEMICeu/GeoDCAT-AP)/[INSPIRE](https://github.com/INSPIRE-MIF/technical-guidelines) metadata [profiles](https://en.wikipedia.org/wiki/Geospatial_metadata). 
+>
+>For the basic ckan-docker-spatial installation, see: [CKAN Docker Compose](https://github.com/mjanez/ckan-docker)
+>
+>For official installations, please have a look at [CKAN Documentation: Installation](https://docs.ckan.org/en/latest/maintaining/installing/index.html).
+
+![CKAN Docker Platform](https://raw.githubusercontent.com/mjanez/ckan-docker/master/doc/img/ckan-docker-services.png)
+
 
 Available components:
 * CKAN custom image based on the official CKAN repo [ckan-docker-spatial](https://github.com/mjanez/ckan-docker-spatial)[^1]
 
 The non-CKAN images are as follows:
-* PostgreSQL: Official PostgreSQL image. Database files are stored in a named volume.
+* PostgreSQL: [Custom image](/postgresql/Dockerfile) based on official PostgreSQL image. Database files are stored in a named volume.
 * Solr: CKAN's [pre-configured Solr image](https://github.com/ckan/ckan-solr). The index data is stored in a named volume and has a spatial schema. [^2]
 * Redis: standard Redis image
-* NGINX: latest stable nginx image that includes SSL and Non-SSL endpoints
+* Apache HTTP Server: [Custom image](/apache/Dockerfile) based on official latest stable httpd image. Configured to serve multiple routes for the [ckan-pycsw](#ckan-pycsw) CSW endpoint (`{CKAN_SITE_URL}/csw`) and CKAN (`{CKAN_SITE_URL}/catalog`).
+* ckan-pycsw: [Custom image](/ckan-pycsw/Dockerfile) based on [pycsw CKAN harvester ISO19139](https://github.com/mjanez/ckan-pycsw) for INSPIRE Metadata CSW Endpoint.
 
-| Repository | Type | Docker tag | Size | Notes |
-| --- | --- | --- | --- | --- |
-| PostgreSQL 15.2 | base image | [`postgres/postgres:15-alpine`](https://hub.docker.com/layers/library/postgres/15-alpine/images/sha256-53a02ecbe9d18ff6476e6651c34811da39f054424c725fc15d2b480fc3fab877?context=explore) | 89.74 MB |   Custom Dockerfile: [`postgresql/Dockerfile`](/postgresql/Dockerfile) |
-| Solr 8.11.1 | base image | [`ckan/ckan-solr:2.9-solr8-spatial`](https://registry.hub.docker.com/layers/ckan/ckan-solr/2.9-solr8-spatial/images/sha256-b5ee4979891c7dd1f10d2ac2cbdd4d80ff656879edb0f0493616be7b4cf8bc3a?context=explore) | 331.1 MB |  - |
-| Redis 6.2.11 | base image | [`redis/redis:6`](https://hub.docker.com/layers/library/redis/6/images/sha256-e10c69dc5f9b27c47874060962fdaa26ec0df592205d6d21402945267081b434?context=explore) | 39.32 MB |  - |
-| NGINX 1.22.1 | base image | [`nginx:stable-alpine`](https://hub.docker.com/layers/library/nginx/stable-alpine/images/sha256-ff2a5d557ca22fa93669f5e70cfbeefda32b98f8fd3d33b38028c582d700f93a?context=explore) | 9.74 MB |  Custom Dockerfile: [`nginx/Dockerfile`](/nginx/Dockerfile) |
+Optional HTTP Endpoint ([`docker-compose.nginx.yml`](/docker-compose.nginx.yml)):
+* `docker-compose.nginx.yml`:
+  * NGINX: latest stable nginx image that includes SSL and Non-SSL endpoints instead of Apache HTTP Server. No locations, no ckan-pycsw, only CKAN.
 
 
-The site is configured using environment variables that you can set in the `.env` file.
+| Compose files | Repository | Type | Docker tag | Size | Notes |
+| --- | --- | --- | --- | --- | --- |
+| [`docker-compose.yml`](/docker-compose.yml) / [`docker-compose.nginx.yml`](/docker-cospatianginx.yml) | CKAN 2.9.8 | custom image | [`mjanez/ckan-spatial:ckan-2.9.8`](https://github.com/mjanez/ckan-docker/pkgs/container/ckan-spatial/85153963?tag=ckan-2.9.8) | 900 MB |   Custom Dockerfile: [`ckan/Dockerfile`](/ckan/Dockerfile) |
+| [`docker-compose.yml`](/docker-compose.yml) / [`docker-compose.nginx.yml`](/docker-compose.nginx.yml) | PostgreSQL 15.2 | base image | [`postgres/postgres:15-alpine`](https://hub.docker.com/layers/library/postgres/15-alpine/images/sha256-53a02ecbe9d18ff6476e6651c34811da39f054424c725fc15d2b480fc3fab877?context=explore) | 89.74 MB |   Custom Dockerfile: [`postgresql/Dockerfile`](/postgresql/Dockerfile) |
+| [`docker-compose.yml`](/docker-compose.yml) / [`docker-compose.nginx.yml`](/docker-compose.nginx.yml) | Solr 8.11.1 | custom image | [`ckan/ckan-solr:2.9-solr8-spatial`](https://registry.hub.docker.com/layers/ckan/ckan-solr/2.9-solr8-spatial/images/sha256-b5ee4979891c7dd1f10d2ac2cbdd4d80ff656879edb0f0493616be7b4cf8bc3a?context=explore) | 331.1 MB |  CKAN's [pre-configured spatial Solr image](https://github.com/ckan/ckan-solr). |
+| [`docker-compose.yml`](/docker-compose.yml) / [`docker-compose.nginx.yml`](/docker-compose.nginx.yml) | Redis 7.0.10 | base image | [`redis/redis:7-alpine`](https://hub.docker.com/layers/library/redis/7-alpine/images/sha256-98f4ea44e912d0941d29015a4e2448151b94411109c896b5627d94d79306eea7?context=explore) | 11.82 MB |  - |
+| [`docker-compose.yml`](/docker-compose.yml) | Apache HTTP Server 2.4 | custom image | [`httpd/httpd:2.4`](https://hub.docker.com/layers/library/httpd/2.4/images/sha256-f34e8e25ee18da020633ef0b2bf7516d8cfdad5c5c4b0595d36e5cd78a098101?context=explore) | 54.47 MB |  Custom Dockerfile: [`apache/Dockerfile`](/apache/Dockerfile) |
+| [`docker-compose.yml`](/docker-compose.yml)| pycsw CKAN harvester ISO19139 | custom image | [`mjanez/ckan-pycsw:main`](https://github.com/mjanez/ckan-pycsw/pkgs/container/ckan-pycsw) | 44 MB |  Custom Dockerfile: [`ckan-pycsw/Dockerfile`](/ckan-pycsw/Dockerfile) |
+| [`docker-compose.nginx.yml`](/docker-compose.nginx.yml) | NGINX 1.22.1 | base image | [`nginx:stable-alpine`](https://hub.docker.com/layers/library/nginx/stable-alpine/images/sha256-ff2a5d557ca22fa93669f5e70cfbeefda32b98f8fd3d33b38028c582d700f93a?context=explore) | 9.74 MB | No routing, only CKAN. Custom Dockerfile: [`nginx/Dockerfile`](/nginx/Dockerfile) |
+
+
+The site is configured using environment variables that you can set in the `.env` file for an Apache HTTP Server and ckan-pycsw deployment, or replace it with the [`.env.nginx.example`](/samples/.env.nginx.example) for a NGINX and CKAN-only deployment using the Docker Compose file: [`docker-compose.nginx.yml`](/docker-compose.nginx.yml).
 
 
 ### ckan-docker roadmap
 Information about extensions installed in the `main` image. More info described in the [Extending the base images](#extending-the-base-images)
 
 >**Note**<br>
-> Switch branches to see the `roadmap` for other projects: [ckan-docker/branches](https://github.com/mjanez/ckan-docker/branches)
+> Switch branches to see the `roadmap` for other projects: [ckan-docker/branches](https://github.com/OpenDataGIS/ckan-docker/branches)
 
 
 | **Element** | **Description**                                                                         | **version** | **Status**                   | **DEV**[^3] | **PRO**[^4]  | **Remarks**                                                                                                                                                                                                                                                                                                                                                             |
 |-------------|-----------------------------------------------------------------------------------------|-------------|------------------------------|---------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Core        | [CKAN](https://github.com/mjanez/ckan-docker)                                           | 2.9.8      | Completed                    | ✔️      | ✔️      | Stable installation for version 2.9.8 (Production & Dev images) via Docker Compose based on [official images](https://github.com/ckan/ckan-docker-base)). Initial configuration, basic customisation and operation guide.                                                                                                                                              |
-| Core +      | [Datastore](https://github.com/mjanez/ckan-docker)                                      | 2.9.8      | Completed                    | ✔️      | ✔️      | Stable installation (Production & Dev images) via Docker Compose.                                                                                                                                                                                                                                                                                                       |
-| Core +      | [~~Datapusher~~](https://github.com/mjanez/ckan-docker)                                     | 0.0.19      | Deprecated                    | ❌      | ❌      | Updated to [xloader](https://github.com/ckan/ckanext-xloader), an express Loader - quickly load data into DataStore.                                                                                                                                |
+| Core        | [CKAN](https://github.com/OpenDataGIS/ckan-docker-iepnb)                                           | 2.9.8      | Completed                    | ✔️      | ✔️      | Stable installation for version 2.9.8 (Production & Dev images) via Docker Compose based on [official images](https://github.com/ckan/ckan-docker-base)). Initial configuration, basic customisation and operation guide.                                                                                                                                              |
+| Core +      | [Datastore](https://github.com/OpenDataGIS/ckan-docker-iepnb)                                      | 2.9.8      | Completed                    | ✔️      | ✔️      | Stable installation (Production & Dev images) via Docker Compose.                                                                                                                                                                                                                                                                                                       |
+| Core +      | [~~Datapusher~~](https://github.com/OpenDataGIS/ckan-docker-iepnb)                                     | 0.0.19      | Deprecated                    | ❌      | ❌      | Updated to [xloader](https://github.com/ckan/ckanext-xloader), an express Loader - quickly load data into DataStore.                                                                                                                                |
 | Extension   | [ckanext-xloader](https://github.com/ckan/ckanext-xloader)                              | 0.12.2        | Completed                    | ✔️      | ✔️      | Stable installation, a replacement for DataPusher because it offers ten times the speed and more robustness                                                                                                                                                                                                                                                                  |
 | Extension   | [ckanext-harvest](https://github.com/ckan/ckanext-harvest)                              | 1.5.1       | Completed                    | ✔️      | ✔️      | Stable installation, necessary for the implementation of the Collector ([ogc_ckan](#recollector-ckan))                                                                                                                                                                                                                                                                  |
 | Extension   | [ckanext-geoview](https://github.com/ckan/ckanext-geoview)                              | 0.0.20      | Completed                    | ✔️      | ✔️      | Stable installation.                                                                                                                                                                                                                                                                                                                                                    |
@@ -64,7 +80,8 @@ Information about extensions installed in the `main` image. More info described 
 | Extension   | [ckanext-resourcedictionary](https://github.com/OpenDataGIS/ckanext-resourcedictionary) | main        | Completed                    | ✔️      | ✔️      | Stable installation. This extension extends the default CKAN Data Dictionary functionality by adding possibility to create data dictionary before actual data is uploaded to datastore.                                                                                                                                                                                 |
 | Extension   | [ckanext-pages](https://github.com/ckan/ckanext-pages)                                  | 0.5.1       | Completed                    | ✔️      | ✔️      | Stable installation. This extension gives you an easy way to add simple pages to CKAN.                                                                                                                                                                                                                                                                                  |
 | Extension   | [ckanext-pdfview](https://github.com/ckan/ckanext-pdfview)                              | 0.0.8       | Completed                    | ✔️      | ✔️      | Stable installation. This extension provides a view plugin for PDF files using an html object tag.                                                                                                                                                                                                                                                                      |
-| Software    | [docker-pycsw](https://github.com/mjanez/ckan-pycsw)                                    | main        | Ready to use standalone version | ✔️      | ❌       | Stable installation. PyCSW Endpoint of Open Data Portal with docker compose config. Harvest the CKAN catalogue in a CSW endpoint based on existing spatial datasets in the open data portal.                                                                                                                                                                            |
+| Extension    | [ckanext-iepnb](https://github.com/OpenDataGIS/ckanext-iepnb)                                    | 0.05        | Ready to use standalone version | ✔️      | ✔️       | Stable installation for 0.0.5 version, the modification of the Solr schema.xml with the new fields for faceted and failed python dependencies needs to be reviewed.                                                                                                                                                                             |
+| Software    | [ckan-pycsw](https://github.com/mjanez/ckan-pycsw)                                    | main        | Completed | ✔️      | ✔️       | Stable installation. PyCSW Endpoint of Open Data Portal with docker compose config. Harvest the CKAN catalogue in a CSW endpoint based on existing spatial datasets in the open data portal.                                                                                                                                                                            |
 
 
 ## Environment: docker
@@ -151,29 +168,47 @@ docker compose [-p <my_project>] down
 
 ## Install (build and run) CKAN plus dependencies
 ### Base mode
-Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions
-
-Copy the included `.env.example` and rename it to `.env`. Modify it depending on your own needs.
-
->**Note**:<br>
-> Please note that when accessing CKAN directly (via a browser) ie: not going through NGINX you will need to make sure you have "ckan" set up to be an alias to localhost in the local hosts file. Either that or you will need to change the `.env` entry for `CKAN_SITE_URL`
-
->**Warning**:<br>
-> Using the default values on the `.env.example` file will get you a working CKAN instance. There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD`(`ckan_admin` and `test1234` by default). This should be obviously changed before running this setup as a public CKAN instance.
+Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions.
 
 Clone project
-```shell
-cd /path/to/my/project
-git clone https://github.com/mjanez/ckan-docker.git
-```
+  ```shell
+  cd /path/to/my/project
+  git clone https://github.dev/OpenDataGIS/ckan-docker-iepnb.git
+  ```
+
+Modify [`.env`](/.env) depending on your own needs.
+
+- **Apache HTTP Server & CKAN/ckan-pycsw endpoints**: Modifiy the variables about the site URL or locations (`CKAN_SITE_URL` `CKAN_URL`, `PYCSW_URL`, `CKANEXT__DCAT__BASE_URI`, `APACHE_SERVER_NAME`, `APACHE_CKAN_LOCATION`, `APACHE_PYCSW_LOCATION`, etc.).
+
+- **NGINX only CKAN**: Replace the [`.env`](/.env) with the [`.env.nginx.example`](/samples/.env.nginx.example) and modify the variables as needed.
+
+>**Note**:<br>
+> Please note that when accessing CKAN directly (via a browser) ie: not going through Apache/NGINX you will need to make sure you have "ckan" set up to be an alias to localhost in the local hosts file. Either that or you will need to change the `.env` entry for `CKAN_SITE_URL`
+
+>**Warning**:<br>
+> Using the default values on the `.env` file will get you a working CKAN instance. There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD`(`ckan_admin` and `test1234` by default). **This should be obviously changed before running this setup as a public CKAN instance.**
 
 To build the images:
-
-	docker compose build
+  ```bash
+  docker compose build 
+  ```
+  >**Note**<br>
+  > NGINX CKAN without ckan-pycsw and Apache:
+  >```bash
+  >docker compose -f docker-compose.nginx.yml build
+  >```
+  
 
 To start the containers:
+  ```bash
+  docker compose up
+  ```
 
-	docker compose up
+  >**Note**<br>
+  > NGINX CKAN without ckan-pycsw and Apache:
+  >```bash
+  >docker compose -f docker-compose.nginx.yml up
+  >```
 
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current 
@@ -182,11 +217,73 @@ window for something else.
 >**Note**<br>
 > Or `docker compose up --build` to build & up the containers.
 
-At the end of the container start sequence there should be 6 containers running
+At the end of the container start sequence there should be 6 containers running (or 5 if use NGINX Docker Compose file)
 
-![Screenshot 2022-12-12 at 10 36 21 am](https://user-images.githubusercontent.com/54408245/207012236-f9571baa-4d99-4ffe-bd93-30b11c4829e0.png)
+After this step, CKAN should be running at {`APACHE_SERVER_NAME`}{`APACHE_CKAN_LOCATION`} and ckan-pycsw at {`APACHE_SERVER_NAME`}{`APACHE_PYCSW_LOCATION`}, i.e: http://localhost/catalog or http://localhost/csw
 
-After this step, CKAN should be running at `CKAN_SITE_URL`.
+|CONTAINER   ID                                |IMAGE               |COMMAND|CREATED|STATUS|PORTS|NAMES|
+|------------|----------------------------------|--------------------|-------|-------|------|-----|
+|0217537f717e|ckan-docker-iepnb-apache                 |/docker-entrypoint.…|6      minutes ago   |Up   4    minutes|80/tcp,0.0.0.0:80->80/tcp | apache  |
+|7b06ab2e060a|ckan-docker-iepnb-ckan|/srv/app/start_ckan…|6      minutes ago   |Up   5    minutes (healthy)|0.0.0.0:5000->5000/tcp|ckan                 |       |
+|1b8d9789c29a|redis:7-alpine                           |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|6379/tcp              |redis                |       |
+|7f162741254d|ckan/ckan-solr:2.9-solr8-spatial  |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|8983/tcp              |solr                 |       |
+|2cdd25cea0de|ckan-docker-iepnb-db                    |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|5432/tcp              |db                   |       |
+|9cdj25dae6gr|ckan-docker-iepnb-pycsw                    |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|8000/tcp              |db                   |       |
+
+
+#### Configure a docker compose service to start on boot
+>**Note**<br>
+> Test on Debian.
+
+To have Docker Compose run automatically when you reboot a machine, you can follow the steps below:
+1. Create a systemd service file for Docker Compose. You can create a file named `ckan-docker-compose.service` in the `/etc/systemd/system/` folder with the following content:
+
+  ```bash
+  [Unit]
+  Description=CKAN Docker Compose Application Service
+  Requires=docker.service
+  After=docker.service
+
+  [Service]
+  Type=oneshot
+  RemainAfterExit=yes
+  WorkingDirectory=/path/to/project/ckan-docker/
+  ExecStart=/bin/docker compose up -d
+  ExecStop=/bin/docker compose down
+  TimeoutStartSec=0
+
+  [Install]
+  WantedBy=multi-user.target
+  ```
+
+2. Replace `/path/to/project/ckan-docker/` with the path where your project's `docker-compose.yml` file is located and and check the path to the docker compose binary on execution and stop: `/bin/docker`.
+3. Load the systemd service file with the following command:
+
+  ```bash
+  sudo systemctl daemon-reload
+  ```
+
+4. Enables the service to start automatically when the machine boots up:
+
+  ```bash
+  sudo systemctl enable ckan-docker-compose
+  ```
+
+5. You can now start the service with the following command:
+
+  ```bash
+  sudo systemctl start ckan-docker-compose
+  ```
+
+6. If you want to stop or check the status of the service, use the following commands:
+
+  ```bash
+  # Stop the service
+  sudo systemctl stop ckan-docker-compose
+
+  # Check the status
+  sudo systemctl status ckan-docker-compose
+  ```
 
 
 ### Development mode
@@ -212,8 +309,8 @@ You can use the ckan [extension](https://docs.ckan.org/en/latest/extensions/tuto
     
 |CONTAINER   ID                                |IMAGE               |COMMAND|CREATED|STATUS|PORTS|NAMES|
 |------------|----------------------------------|--------------------|-------|-------|------|-----|
-|0217537f717e|ckan-docker-nginx                 |/docker-entrypoint.…|6      minutes ago   |Up   4    minutes|81/tcp,0.0.0.0:81->80/tcp, 0.0.0.0:8443->443/tcp|nginx  |
-|7b06ab2e060a|ghcr.io/mjanez/ckan-spatial:master|/srv/app/start_ckan…|6      minutes ago   |Up   5    minutes (healthy)|0.0.0.0:5000->5000/tcp|ckan                 |       |
+|0217537f717e|ckan-docker-apache                 |/docker-entrypoint.…|6      minutes ago   |Up   4    minutes|80/tcp,0.0.0.0:80->80/tcp | apache  |
+|7b06ab2e060a|ghcr.io/opendatagis/ckan-iepnb:master|/srv/app/start_ckan…|6      minutes ago   |Up   5    minutes (healthy)|0.0.0.0:5000->5000/tcp|ckan                 |       |
 |1b8d9789c29a|redis:6                           |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|6379/tcp              |redis                |       |
 |7f162741254d|ckan/ckan-solr:2.9-solr8-spatial  |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|8983/tcp              |solr                 |       |
 |2cdd25cea0de|ckan-docker-db                    |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|5432/tcp              |db                   |       |
@@ -336,12 +433,34 @@ Debug with pdb (example) - Interact with `docker attach $(docker container ls -q
 command: `python -m pdb /usr/lib/ckan/venv/bin/ckan --config /srv/app/ckan.ini run --host 0.0.0.0 --passthrough-errors`
 
 
-### Datastore and datapusher
-The Datastore database and user is created as part of the entrypoint scripts for the db container. There is also a Datapusher container running the latest version of Datapusher.
+### Datastore
+The Datastore database and user is created as part of the entrypoint scripts for the db container.
 
+
+### Apache HTTP Server
+The default Docker Compose configuration ([`docker-compose.yml`](/docker-compose.yml)) uses an httpd image as the front-end. It has two routes for the ckan (default location: `/catalog`) and ckan-pycsw (default location: `/csw`) services. 
+
+Both web locations can be modified in the `.env` file:
+```ini
+...
+
+# Apache HTTP Server
+APACHE_VERSION=2.4
+APACHE_PORT=80
+APACHE_LOG_DIR=/var/log/apache
+APACHE_SERVER_NAME=mjanez-cautious-lamp-4pjq9vpg967hq447-80.preview.app.github.dev
+# Check CKAN__ROOT_PATH and CKANEXT__DCAT__BASE_URI. If you don't need to use domain locations, it is better to use the nginx configuration. Leave blank or use the root `/`.
+APACHE_CKAN_LOCATION=/catalog
+APACHE_PYCSW_LOCATION=/csw
+
+...
+```
 
 ### NGINX
-The base Docker Compose configuration uses an NGINX image as the front-end (ie: reverse proxy). It includes HTTPS running on port number 8443 and an HTTP port (81). A "self-signed" SSL certificate is generated beforehand and the server certificate and key files are included. The NGINX `server_name` directive and the `CN` field in the SSL certificate have been both set to 'localhost'. This should obviously not be used for production.
+>**Warning**<br>
+> The [nginx docker compose file](/docker-compose.nginx.yml) only deploys the CKAN service, not ckan-pycsw.
+
+The nginx Docker Compose configuration ([`docker-compose.nginx.yml`](/docker-compose.nginx.yml)) uses an NGINX image as the front-end (ie: reverse proxy). It includes HTTPS running on port number 8443 and an HTTP port (81). A "self-signed" SSL certificate is generated beforehand and the server certificate and key files are included. The NGINX `server_name` directive and the `CN` field in the SSL certificate have been both set to 'localhost'. This should obviously not be used for production.
 
 Creating the SSL cert and key files as follows:
 `openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=DE/ST=Berlin/L=Berlin/O=None/CN=localhost" -keyout ckan-local.key -out ckan-local.crt`
@@ -366,14 +485,6 @@ For example:
 These parameters can be added to the `.env` file 
 
 For more information please see [ckanext-envvars](https://github.com/okfn/ckanext-envvars)
-
-
-### ckan-pycsw
-[ckan-pycsw](https://github.com/mjanez/ckan-pycsw) is a docker compose environment (based on [pycsw](https://github.com/geopython/pycsw)) for development and testing with CKAN Open Data portals.[^5]
-
-Available components:
-* **pycsw**: The pycsw app. An [OARec](https://ogcapi.ogc.org/records) and [OGC CSW](https://opengeospatial.org/standards/cat) server implementation written in Python.
-* **ckan2pycsw**: Software to achieve interoperability with the open data portals based on CKAN. To do this, ckan2pycsw reads data from an instance using the CKAN API, generates ISO-19115/ISO-19139 metadata using [pygeometa](https://geopython.github.io/pygeometa/), or a custom schema that is based on a customized CKAN schema, and populates a [pycsw](https://pycsw.org/) instance that exposes the metadata using CSW and OAI-PMH.
 
 
 [^1]: Official CKAN repo: https://github.com/ckan/ckan-docker-base
