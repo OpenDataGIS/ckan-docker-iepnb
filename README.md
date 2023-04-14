@@ -31,7 +31,11 @@ Contains Docker images for the different components of CKAN Cloud and a Docker c
 
 
 Available components:
-* CKAN custom image based on the official CKAN repo [ckan-docker-spatial](https://github.com/mjanez/ckan-docker-spatial)[^1]
+* CKAN custom image based on the official CKAN repo [ckan-docker-spatial](https://github.com/mjanez/ckan-docker-spatial)[^1]. The following CKAN versions are available:
+
+| CKAN Version | Type | Docker tag | Notes |
+| --- | --- | --- | --- |
+| master | custom image | `ghcr.io/OpenDataGIS/ckan-iepnb:master` | Latest version. |
 
 The non-CKAN images are as follows:
 * PostgreSQL: [Custom image](/postgresql/Dockerfile) based on official PostgreSQL image. Database files are stored in a named volume.
@@ -285,7 +289,6 @@ To have Docker Compose run automatically when you reboot a machine, you can foll
   sudo systemctl status ckan-docker-compose
   ```
 
-
 ### Development mode
 Use this mode if you are making code changes to CKAN and either creating new extensions or making code changes to existing extensions. This mode also uses the `.env` file for config options.
 
@@ -307,13 +310,7 @@ You can use the ckan [extension](https://docs.ckan.org/en/latest/extensions/tuto
 
     docker compose -f docker compose.dev.yml exec ckan-dev /bin/sh -c "ckan generate extension --output-dir /srv/app/src_extensions"
     
-|CONTAINER   ID                                |IMAGE               |COMMAND|CREATED|STATUS|PORTS|NAMES|
-|------------|----------------------------------|--------------------|-------|-------|------|-----|
-|0217537f717e|ckan-docker-apache                 |/docker-entrypoint.…|6      minutes ago   |Up   4    minutes|80/tcp,0.0.0.0:80->80/tcp | apache  |
-|7b06ab2e060a|ghcr.io/opendatagis/ckan-iepnb:master|/srv/app/start_ckan…|6      minutes ago   |Up   5    minutes (healthy)|0.0.0.0:5000->5000/tcp|ckan                 |       |
-|1b8d9789c29a|redis:6                           |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|6379/tcp              |redis                |       |
-|7f162741254d|ckan/ckan-solr:2.9-solr8-spatial  |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|8983/tcp              |solr                 |       |
-|2cdd25cea0de|ckan-docker-db                    |docker-entrypoint.s…|6      minutes ago   |Up   5    minutes (healthy)|5432/tcp              |db                   |       |
+![extension](https://user-images.githubusercontent.com/54408245/220623568-b4e074c7-6d07-4d27-ae29-35ce70961463.png)
 
 
 The new extension files and directories are created in the `/srv/app/src_extensions/` folder in the running container. They will also exist in the local src/ directory as local `/src` directory is mounted as `/srv/app/src_extensions/` on the ckan container. You might need to change the owner of its folder to have the appropiate permissions.
@@ -485,6 +482,14 @@ For example:
 These parameters can be added to the `.env` file 
 
 For more information please see [ckanext-envvars](https://github.com/okfn/ckanext-envvars)
+
+
+### ckan-pycsw
+[ckan-pycsw](https://github.com/mjanez/ckan-pycsw) is a docker compose environment (based on [pycsw](https://github.com/geopython/pycsw)) for development and testing with CKAN Open Data portals.[^5]
+
+Available components:
+* **pycsw**: The pycsw app. An [OARec](https://ogcapi.ogc.org/records) and [OGC CSW](https://opengeospatial.org/standards/cat) server implementation written in Python.
+* **ckan2pycsw**: Software to achieve interoperability with the open data portals based on CKAN. To do this, ckan2pycsw reads data from an instance using the CKAN API, generates ISO-19115/ISO-19139 metadata using [pygeometa](https://geopython.github.io/pygeometa/), or a custom schema that is based on a customized CKAN schema, and populates a [pycsw](https://pycsw.org/) instance that exposes the metadata using CSW and OAI-PMH.
 
 
 [^1]: Official CKAN repo: https://github.com/ckan/ckan-docker-base
