@@ -325,7 +325,7 @@ The new extension files and directories are created in the `/srv/app/src_extensi
 
 ## CKAN images
 
-![ckan images](https://raw.githubusercontent.com/mjanez/ckan-docker/master/doc/img/ckan-docker-images-iepnb.png)
+![ckan images](https://raw.githubusercontent.com/mjanez/ckan-docker/master/doc/img/ckan-docker-images.png)
 
 The Docker image config files used to build your CKAN project are located in the `ckan/` folder. There are two Docker files:
 
