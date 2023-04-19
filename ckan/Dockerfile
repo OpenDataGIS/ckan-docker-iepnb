@@ -20,7 +20,7 @@ RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
 ### Resource dictionary - 1.0.1 ###
 ### Pages - v0.5.1 ###
 ### PDFView - v0.0.8 ###
-### IEPNB Theme - v0.0.5 ###
+### IEPNB Theme - 0.1.2 ###
 RUN echo "ckan/ckanext-xloader" && \
     pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@0.12.2#egg=ckanext-xloader' && \ 
     pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
@@ -45,7 +45,7 @@ RUN echo "ckan/ckanext-xloader" && \
     echo "ckan/ckanext-pdfview" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@0.0.5#egg=ckanext-iepnb && \
+    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@0.1.2#egg=ckanext-iepnb && \
     pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/main/requirements.txt
 
 # Used to configure the container environment by setting environment variables, creating users, running initialization scripts, .etc

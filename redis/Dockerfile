@@ -1,3 +1,4 @@
+#TODO: Test custom redis image
 FROM alpine:3.17
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
