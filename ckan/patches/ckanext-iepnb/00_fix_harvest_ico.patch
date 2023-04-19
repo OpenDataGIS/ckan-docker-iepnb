@@ -1,0 +1,13 @@
+diff --git a/ckanext/iepnb/templates/home/columna_izquierda.html b/ckanext/iepnb/templates/home/columna_izquierda.html
+index 683403a..09d1186 100644
+--- a/ckanext/iepnb/templates/home/columna_izquierda.html
++++ b/ckanext/iepnb/templates/home/columna_izquierda.html
+@@ -20,7 +20,7 @@
+               </a>
+               
+               <a href="{{ h.url_for('/harvest') }}" class="menu_area_privada w-inline-block" title="{{ _('harvest') }}">
+-                <img src="{{ h.url_for_static('img/icono_harvest.svg') }}" loading="lazy" alt="Harvest" class="image-4">
++                <img src="{{ h.url_for_static('img/icono_panel_de_control.svg') }}" loading="lazy" alt="Harvest" class="image-4">
+                 <p class="text_menu_area_privada">{{ _('Harvest') }}</p>
+               </a>
+               
