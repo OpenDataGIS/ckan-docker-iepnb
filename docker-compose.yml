@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
       args:
         - TZ=${TZ}
-    image: ghcr.io/opendatagis/ckan-iepnb:master
+    #image: ghcr.io/opendatagis/ckan-iepnb:master
     env_file:
       - .env
     logging:
@@ -121,10 +121,10 @@ services:
 
   redis:
     container_name: ${REDIS_CONTAINER_NAME}
-    build:
-      context: redis/
-      dockerfile: Dockerfile
-    #image: redis:${REDIS_VERSION}
+    # build:
+    #   context: redis/
+    #   dockerfile: Dockerfile
+    image: redis:${REDIS_VERSION}
     logging:
       driver: "json-file"
       options:
