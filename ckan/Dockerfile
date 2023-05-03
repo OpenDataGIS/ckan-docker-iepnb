@@ -1,27 +1,25 @@
 FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.8
 
 # Set up environment variables
-ENV APP_DIR=/srv/app
-ENV TZ=UTC
-RUN echo ${TZ} > /etc/timezone
-
-# Make sure both files are not exactly the same
-RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime ;\
-    fi ;
+ENV APP_DIR=/srv/app \
+    TZ=UTC
 
 # Extensions
 ### XLoader - v0.12.2 ###
 ### Harvester - v1.5.1 ###
 ### Geoview - v0.0.20 ###
 ### Spatial - v2.0.0 ###
-### DCAT - 1.0.0-geodcatap (GeoDCAT-AP extended version) ###
+### DCAT - 1.0.0-geodcatap (GeoDCAT-AP extended version)
 ### Scheming - 1.0.0-geodcatap (GeoDCAT-AP extended version) ###
 ### Resource dictionary - 1.0.1 ###
 ### Pages - v0.5.1 ###
 ### PDFView - v0.0.8 ###
-### IEPNB Theme - 0.1.2 ###
-RUN echo "ckan/ckanext-xloader" && \
+### Facet scheming - 1.0.0 ###
+### IEPNB Theme - 1.0.0 ###
+RUN echo ${TZ} > /etc/timezone && \
+    if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime ; fi && \
+    # Install CKAN extensions
+    echo "ckan/ckanext-xloader" && \
     pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@0.12.2#egg=ckanext-xloader' && \ 
     pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
     pip3 install -U requests[security] && \
@@ -44,9 +42,12 @@ RUN echo "ckan/ckanext-xloader" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pages.git@v0.5.1#egg=ckanext-pages && \
     echo "ckan/ckanext-pdfview" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
+    echo "OpenDataGIS/ckanext-facet_scheming" && \
+    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-facet_scheming.git@1.0.0#egg=ckanext-facet_scheming && \
+    pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-facet_scheming/1.0.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@0.1.2#egg=ckanext-iepnb && \
-    pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/main/requirements.txt
+    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@1.0.0#egg=ckanext-iepnb && \
+    pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/1.0.0/requirements.txt
 
 # Used to configure the container environment by setting environment variables, creating users, running initialization scripts, .etc
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
