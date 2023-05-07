@@ -96,7 +96,7 @@ services:
     container_name: ${SOLR_CONTAINER_NAME}
     build:
       context: solr/
-      dockerfile: Dockerfile.spatial
+      dockerfile: Dockerfile.iepnb
     env_file:
       - .env
     logging:
