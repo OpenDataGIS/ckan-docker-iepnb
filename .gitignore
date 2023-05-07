@@ -9,8 +9,12 @@ _src/*
 local/*
 .vscode
 __pycache__
-log
-metadata
+log/*
+!log/README.md
+metadata/*
+!metadata/README.md
+src/*
+!src/README.md
 
 # environment
 .env

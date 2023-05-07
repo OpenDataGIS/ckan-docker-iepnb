@@ -201,31 +201,24 @@ Use this if you are a maintainer and will not be making code changes to CKAN or 
 
 3. Build the images:
     ```bash
-    docker compose build
+    docker compose build 
     ```
+
     >**Note**<br>
-    > NGINX CKAN without ckan-pycsw and Apache:
-    >```bash
-    >docker compose -f docker-compose.nginx.yml build
-    >```
-  
+    > You can use a [deploy in 5 minutes](#quick-mode) if you just want to test the package. 
+
 4. Start the containers:
     ```bash
     docker compose up
     ```
-
-    >**Note**<br>
-    > NGINX CKAN without ckan-pycsw and Apache:
-    >```bash
-    >docker compose -f docker-compose.nginx.yml up
-    >```
 
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current 
 window for something else.
 
 >**Note**<br>
-> Or `docker compose up --build` to build & up the containers.
+> * Or `docker compose up --build` to build & up the containers.
+> * Or `docker compose -f docker-compose.nginx.yml up -d --build` to use the NGINX version.
 
 At the end of the container start sequence there should be 6 containers running (or 5 if use NGINX Docker Compose file)
 
@@ -238,7 +231,7 @@ After this step, CKAN should be running at {`APACHE_SERVER_NAME`}{`APACHE_CKAN_L
 |1b8d9789c29a|redis:7-alpine                           |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|6379/tcp              |redis                |       |
 |7f162741254d|ckan/ckan-solr:2.9-solr8-spatial  |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|8983/tcp              |solr                 |       |
 |2cdd25cea0de|ckan-docker-iepnb-db                    |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|5432/tcp              |db                   |       |
-|9cdj25dae6gr|ckan-docker-iepnb-pycsw                    |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|8000/tcp              |db                   |       |
+|9cdj25dae6gr|ckan-docker-iepnb-pycsw                    |docker-entrypoint.s…|6      minutes ago   |Up   4    minutes (healthy)|8000/tcp              |pycsw                   |       |
 
 
 #### Configure a docker compose service to start on boot
@@ -297,6 +290,17 @@ To have Docker Compose run automatically when you reboot a machine, you can foll
   sudo systemctl status ckan-docker-compose
   ```
 
+### Quick mode
+If you just want to test the package and see the general functionality of the platform, you can use the `ckan-iepnb` image from the [Github container registry](https://github.com/opendatagis/ckan-iepnb/pkgs/container/ckan-iepnb):
+    
+  ```bash
+  cp .env.example .env
+  # Edit the envvars in the .env as you like and start the containers.
+  docker compose -f docker-compose.ghcr.yml up -d --build 
+  ```
+
+It will download the pre-built image and deploy all the containers. Remember to use your own domain by changing `localhost` in the `.env` file.
+
 ### Development mode
 Use this mode if you are making code changes to CKAN and either creating new extensions or making code changes to existing extensions. This mode also uses the `.env` file for config options.
 
@@ -326,7 +330,7 @@ The new extension files and directories are created in the `/srv/app/src_extensi
 
 ## CKAN images
 
-![ckan images](https://raw.githubusercontent.com/mjanez/ckan-docker/master/doc/img/ckan-docker-images-iepnb.png)
+![ckan images](https://raw.githubusercontent.com/mjanez/ckan-docker/master/doc/img/ckan-docker-images.png)
 
 The Docker image config files used to build your CKAN project are located in the `ckan/` folder. There are two Docker files:
 
@@ -337,6 +341,28 @@ The Docker image config files used to build your CKAN project are located in the
   * CKAN is started running this: `/usr/bin/ckan -c /srv/app/ckan.ini run -H 0.0.0.0`.
   * Make sure to add the local plugins to the `CKAN__PLUGINS` env var in the `.env` file.
 
+* Any extension cloned on the `./src` folder will be installed in the CKAN container when booting up Docker Compose (`docker compose up`). This includes installing any requirements listed in a `requirements.txt` (or `pip-requirements.txt`) file and running `python setup.py develop`.
+  * CKAN is started running this: `/usr/bin/ckan -c /srv/app/ckan.ini run -H 0.0.0.0`.
+  * Make sure to add the local plugins to the `CKAN__PLUGINS` env var in the `.env` file.
+
+* Any custom changes to the scripts run during container start up can be made to scripts in the `setup/` directory. For instance if you wanted to change the port on which CKAN runs you would need to make changes to the Docker Compose yaml file, and the `start_ckan.sh.override` file. Then you would need to add the following line to the Dockerfile ie: `COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh`. The `start_ckan.sh` file in the locally built image would override the `start_ckan.sh` file included in the base image
+
+>**Note**<br>
+> If you get an error like ` doesn't have execute permissions`: 
+>
+>```log
+>Daemon error response: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "/srv/app/start_ckan.sh": permission denied: unknown
+>```
+>
+>It may be necessary to give execute permissions to the file in the `Dockerfile`:
+>
+>```dockerfile
+>...
+># Override start_ckan.sh
+>COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
+>RUN chmod +x ${APP_DIR}/start_ckan.sh
+>...
+>```
 
 ## CKAN images enhancement
 ### Extending the base images
