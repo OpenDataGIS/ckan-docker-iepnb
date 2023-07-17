@@ -5,15 +5,15 @@ ENV APP_DIR=/srv/app \
     TZ=UTC
 
 # Extensions
-### XLoader - v0.12.2 ###
+### XLoader - 1.0.1 ###
 ### Harvester - v1.5.1 ###
 ### Geoview - v0.0.20 ###
 ### Spatial - v2.0.0 ###
 ### DCAT - 1.0.0-geodcatap (GeoDCAT-AP extended version)
 ### Scheming - 1.1.0-geodcatap (GeoDCAT-AP extended version) ###
 ### Resource dictionary - 1.0.1 ###
-### Pages - v0.5.1 ###
-### PDFView - v0.0.8 ###
+### Pages - v0.5.2 ###
+### PDFView - 0.0.8 ###
 ### Facet scheming - 1.0.1 ###
 ### SPARQL Interface - IEPNB Version - 2.0.2-iepnb ###
 ### IEPNB Theme - 2.0.2 ###
@@ -21,7 +21,7 @@ RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime ; fi && \
     # Install CKAN extensions
     echo "ckan/ckanext-xloader" && \
-    pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@0.12.2#egg=ckanext-xloader' && \ 
+    pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@1.0.1#egg=ckanext-xloader' && \ 
     pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
     pip3 install -U requests[security] && \
     echo "ckan/ckanext-harvest" && \
@@ -40,7 +40,7 @@ RUN echo ${TZ} > /etc/timezone && \
     echo "mjanez/ckanext-resourcedictionary" && \
     pip3 install -e 'git+https://github.com/mjanez/ckanext-resourcedictionary.git@1.0.1#egg=ckanext-resourcedictionary' && \
     echo "ckan/ckanext-pages" && \
-    pip3 install -e git+https://github.com/ckan/ckanext-pages.git@v0.5.1#egg=ckanext-pages && \
+    pip3 install -e git+https://github.com/ckan/ckanext-pages.git@v0.5.2#egg=ckanext-pages && \
     echo "ckan/ckanext-pdfview" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
     echo "OpenDataGIS/ckanext-facet_scheming" && \
