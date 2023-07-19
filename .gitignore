@@ -18,3 +18,5 @@ src/*
 
 # environment
 .env
+*.code-workspace
+*.log
