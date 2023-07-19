@@ -4,11 +4,14 @@ FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.9
 ENV APP_DIR=/srv/app \
     TZ=UTC
 
+# requirements.txt files fixed until next releases
+COPY req_fixes ${APP_DIR}/req_fixes
+
 # Extensions
 ### XLoader - 1.0.1 ###
 ### Harvester - v1.5.1 ###
 ### Geoview - v0.0.20 ###
-### Spatial - v2.0.0 ###
+### Spatial - v2.0.0 ### fixed requirements.txt
 ### DCAT - 1.0.0-geodcatap (GeoDCAT-AP extended version)
 ### Scheming - 1.1.0-geodcatap (GeoDCAT-AP extended version) ###
 ### Resource dictionary - 1.0.1 ###
@@ -31,7 +34,7 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install -e 'git+https://github.com/ckan/ckanext-geoview.git@v0.0.20#egg=ckanext-geoview' && \
     echo "ckan/ckanext-spatial" && \
     pip3 install -e 'git+https://github.com/ckan/ckanext-spatial.git@v2.0.0#egg=ckanext-spatial' && \
-    pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-spatial/master/requirements.txt && \
+    pip3 install -r ${APP_DIR}/req_fixes/ckanext-spatial_requirements.txt && \
     echo "mjanez/ckanext-dcat (GeoDCAT-AP extended version)" && \
     pip3 install -e git+https://github.com/mjanez/ckanext-dcat.git@1.0.0-geodcatap#egg=ckanext-dcat && \
     pip3 install -r https://raw.githubusercontent.com/mjanez/ckanext-dcat/master/requirements.txt && \
