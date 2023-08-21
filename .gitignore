@@ -20,3 +20,4 @@ src/*
 .env
 *.code-workspace
 *.log
+.env.ckan-des
