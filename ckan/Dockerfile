@@ -45,7 +45,7 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install -e git+https://github.com/ckan/ckanext-pages.git@v0.5.2#egg=ckanext-pages && \
     echo "ckan/ckanext-pdfview" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
-    echo "OpenDataGIS/ckanext-scheming_dcat" && \
+    echo "mjanez/ckanext-scheming_dcat" && \
     pip3 install -e git+https://github.com/mjanez/ckanext-scheming_dcat.git@v1.0.0#egg=ckanext_scheming_dcat && \
     pip3 install -r https://raw.githubusercontent.com/mjanez/ckanext-scheming_dcat/v1.0.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
