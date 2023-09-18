@@ -17,7 +17,7 @@ ENV PYCSW_CRON_HOUR_START=4
 WORKDIR ${APP_DIR}
 
 # Update files if needed
-COPY pycsw/conf/pycsw.conf.template pycsw/entrypoint.sh ./
+COPY pycsw/conf/pycsw.conf.template docker-entrypoint.d/entrypoint.sh ./
 
 USER $USERNAME
 
