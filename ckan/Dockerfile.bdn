@@ -11,8 +11,8 @@ COPY req_fixes ${APP_DIR}/req_fixes
 ### DCAT - v1.5.1 ###
 ### Scheming - release-3.0.0 ###
 ### Pages - v0.5.2 ###
-### SPARQL Interface - 2.0.1 ###
-### IEPNB Theme - 2.0.2 ###
+### SPARQL Interface - 2.0.2 ###
+### IEPNB Theme - 2.0.2.1 ###
 ### bdncatalog - main ###
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime ; fi && \
@@ -25,8 +25,8 @@ RUN echo ${TZ} > /etc/timezone && \
     echo "ckan/ckanext-pages" && \
     pip3 install -e git+https://github.com/ckan/ckanext-pages.git@v0.5.2#egg=ckanext-pages && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.2#egg=ckanext-iepnb && \
-    pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.2/requirements.txt && \
+    pip3 install -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.2.1#egg=ckanext-iepnb && \
+    pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.2.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
     pip3 install -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.2-iepnb#egg=ckanext-sparql_interface && \
     pip3 install -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.2-iepnb/requirements.txt && \
