@@ -14,6 +14,11 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "100m"
+          max-file: "10"
     depends_on:
       ckan-dev:
         condition: service_healthy
@@ -58,6 +63,11 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "100m"
+          max-file: "10"
     depends_on:
       ckan-dev:
         condition: service_healthy
@@ -66,7 +76,7 @@ services:
     volumes:
         - ./log:${APP_DIR}/log
         - ./metadata:${APP_DIR}/metadata
-    restart: unless-stopped
+    restart: on-failure:3
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${PYCSW_PORT}"]
     
@@ -81,13 +91,13 @@ services:
       - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     logging:
       driver: "json-file"
       options:
           max-size: "100m"
           max-file: "10"
-    volumes:
-      - pg_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "ckan"]
