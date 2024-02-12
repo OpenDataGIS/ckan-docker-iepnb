@@ -1,7 +1,8 @@
 # Base image
-FROM ghcr.io/mjanez/ckan-pycsw:latest AS base
+FROM ghcr.io/mjanez/ckan-pycsw:main AS base
+LABEL maintainer="mnl.janez@gmail.com"
 
-# Set up environment variables
+# ckan-pycsw envvars
 ENV APP_DIR=/app
 ENV TZ=UTC
 ENV PYCSW_CKAN_SCHEMA=iso19139_inspire
@@ -19,7 +20,4 @@ WORKDIR ${APP_DIR}
 # Update files if needed
 COPY pycsw/conf/pycsw.conf.template docker-entrypoint.d/entrypoint.sh ./
 
-USER $USERNAME
-
 ENTRYPOINT ["/bin/bash", "./entrypoint.sh"]
-CMD ["tail", "-f", "/dev/null"]
