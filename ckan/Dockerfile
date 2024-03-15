@@ -22,7 +22,7 @@ COPY req_fixes req_fixes
 ### PDFView - 0.0.8 ###
 ### Scheming DCAT - v1.2.1 (GeoDCAT-AP extended version) ###
 ### SPARQL Interface - 2.0.2-iepnb ###
-### IEPNB Theme - 2.0.3 ###
+### IEPNB Theme - 2.0.3.1 ###
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime ; fi && \
     # Install CKAN extensions
@@ -55,8 +55,8 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-scheming_dcat.git@v1.2.1#egg=ckanext_scheming_dcat && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-scheming_dcat/v1.2.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.3#egg=ckanext-iepnb && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.3/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.3.1#egg=ckanext-iepnb && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.3.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.2-iepnb#egg=ckanext-sparql_interface && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.2-iepnb/requirements.txt
