@@ -1,7 +1,7 @@
-diff --git a/ckanext/scheming_dcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml b/ckanext/scheming_dcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
+diff --git a/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml b/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
 index daf5d16..49b3f1a 100644
---- a/ckanext/scheming_dcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
-+++ b/ckanext/scheming_dcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
+--- a/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
++++ b/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
 @@ -36,6 +36,28 @@ dataset_fields:
      en: eg. A descriptive title.
      es: ej. Un t├¡tulo descriptivo.

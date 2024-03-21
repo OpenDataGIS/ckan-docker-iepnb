@@ -1,20 +1,23 @@
-FROM ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.9
+FROM ghcr.io/mjanez/ckan-docker:ckan-2.9.11
 
 # Set up environment variables
 ENV APP_DIR=/srv/app
 ENV TZ=UTC
-RUN echo ${TZ} > /etc/timezone
+
+# Set working directory
+WORKDIR ${APP_DIR}
 
 # Make sure both files are not exactly the same
-RUN if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
-    cp /usr/share/zoneinfo/${TZ} /etc/localtime ;\
+RUN echo ${TZ} > /etc/timezone && \
+    if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then \
+        cp /usr/share/zoneinfo/${TZ} /etc/localtime ; \
     fi ;
 
 # Used to configure the container environment by setting environment variables, creating users, running initialization scripts, .etc
-COPY docker-entrypoint.d/* /docker-entrypoint.d/
+COPY docker-entrypoint.d/* docker-entrypoint.d/
 
 # Update who.ini with PROXY_CKAN_LOCATION
-COPY setup/who.ini ${APP_DIR}/
+COPY setup/who.ini ./
 
 # Apply any patches needed to CKAN core
 COPY patches patches
@@ -34,4 +37,13 @@ RUN for d in $APP_DIR/patches/*; do \
     fi ; \
 done
 
-CMD $APP_DIR/start_ckan.sh
+# Workers
+## Update start_ckan.sh with custom workers
+COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
+RUN chmod +x ${APP_DIR}/start_ckan.sh
+
+## Load workers supervisor configuration
+COPY setup/workers/* /etc/supervisord.d/
+
+# Start CKAN
+CMD ["/bin/sh", "-c", "$APP_DIR/start_ckan.sh"]

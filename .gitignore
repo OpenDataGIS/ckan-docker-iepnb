@@ -21,3 +21,4 @@ src/*
 *.code-workspace
 *.log
 .env.ckan-des
+.env.des-ckan
