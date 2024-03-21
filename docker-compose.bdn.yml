@@ -4,7 +4,7 @@ volumes:
   ckan_storage:
   pg_data:
   solr_data:
-bdn_data:
+  bdn_data:
 
 services:
    
