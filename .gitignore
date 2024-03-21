@@ -21,6 +21,7 @@ src/*
 *.code-workspace
 *.log
 .env.ckan-des
+.env.des-ckan
 
 # eidos
 bdn/eidos_ckan/data/*

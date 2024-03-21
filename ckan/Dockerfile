@@ -1,4 +1,4 @@
-FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.9
+FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.11
 
 # Set up environment variables
 ENV APP_DIR=/srv/app
@@ -24,15 +24,17 @@ COPY req_fixes req_fixes
 ### SPARQL Interface - 2.0.2-iepnb ###
 ### IEPNB Theme - 2.0.3.1 ###
 RUN echo ${TZ} > /etc/timezone && \
-    if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime ; fi && \
+    if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime; fi && \
+    # Remove apk cache
+    rm -rf /var/cache/apk/* && \
     # Install CKAN extensions
     echo "ckan/ckanext-xloader" && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-xloader.git@1.0.1#egg=ckanext-xloader && \ 
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
     pip3 install --no-cache-dir -U requests[security] && \
     echo "ckan/ckanext-harvest" && \
-    pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-harvest.git@v1.5.1#egg=ckanext-harvest && \
-    pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-harvest.git@v1.5.6#egg=ckanext-harvest && \
+    pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-harvest/requirements.txt && \
     echo "ckan/ckanext-geoview" && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-geoview.git@v0.0.20#egg=ckanext-geoview && \
     echo "ckan/ckanext-spatial" && \
@@ -51,9 +53,9 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
     echo "mjanez/ckanext-fluent" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-fluent.git@v1.0.1#egg=ckanext-fluent && \
-    echo "mjanez/ckanext-scheming_dcat" && \
-    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-scheming_dcat.git@v1.2.1#egg=ckanext_scheming_dcat && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-scheming_dcat/v1.2.1/requirements.txt && \
+    echo "mjanez/ckanext-schemingdcat" && \
+    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v1.2.1#egg=ckanext_schemingdcat && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v1.2.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.3.1#egg=ckanext-iepnb && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.3.1/requirements.txt && \
@@ -71,11 +73,20 @@ COPY setup/who.ini ./
 COPY patches patches
 
 RUN for d in $APP_DIR/patches/*; do \
-    if [ -d $d ]; then \
-    for f in `ls $d/*.patch | sort -g`; do \
-    cd $SRC_DIR/`basename "$d"` && echo "$0: Applying patch $f to $SRC_DIR/`basename $d`"; patch -p1 < "$f" ; \
-    done ; \
-    fi ; \
+        if [ -d $d ]; then \
+            for f in `ls $d/*.patch | sort -g`; do \
+                cd $SRC_DIR/`basename "$d"` && echo "$0: Applying patch $f to $SRC_DIR/`basename $d`" && patch -p1 < "$f"; \
+            done; \
+        fi; \
     done
 
+# Workers
+## Update start_ckan.sh with custom workers
+COPY setup/start_ckan.sh.override ${APP_DIR}/start_ckan.sh
+RUN chmod +x ${APP_DIR}/start_ckan.sh
+
+## Load workers supervisor configuration
+COPY setup/workers/* /etc/supervisord.d/
+
+# Start CKAN
 CMD ["/bin/sh", "-c", "$APP_DIR/start_ckan.sh"]
