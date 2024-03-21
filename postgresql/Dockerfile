@@ -10,4 +10,4 @@ ARG POSTGRES_PASSWORD
 ARG DATASTORE_READONLY_PASSWORD
 
 # Include extra setup scripts (eg datastore)
-ADD docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
+COPY --chown=postgres:postgres docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
