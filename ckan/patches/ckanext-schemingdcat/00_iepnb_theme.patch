@@ -1,0 +1,677 @@
+diff --git a/ckanext/schemingdcat/assets/css/schemingdcat.css b/ckanext/schemingdcat/assets/css/schemingdcat.css
+index 29a2a04..6ed03e2 100644
+--- a/ckanext/schemingdcat/assets/css/schemingdcat.css
++++ b/ckanext/schemingdcat/assets/css/schemingdcat.css
+@@ -40,17 +40,17 @@ h6 {
+   font-weight: 400;
+ }
+ h1 {
+-  color: #2f88a3;
++  color: #83b62c;
+   font-size: 28px;
+   font-weight: 500;
+   text-align: justify;
+ }
+ a {
+-  color: #2f88a3;
++  color: #83b62c;
+ }
+ 
+ a:hover {
+-  color: #003164;
++  color: #417400;
+ }
+ 
+ img {
+@@ -59,8 +59,8 @@ img {
+ 
+ /* Buttons */
+ .btn-primary {
+-  background-color: #003164;
+-  border-color: #003164;
++  background-color: #417400;
++  border-color: #417400;
+   font-weight: 400;
+ }
+ .btn-light {
+@@ -129,11 +129,11 @@ img {
+   color: #525252;
+ }
+ .masthead .nav li a:hover {
+-  background: #003164;
++  background: #417400;
+ }
+ .account-masthead {
+   padding: 0px 0;
+-  background: #003164;
++  background: #417400;
+ }
+ .site-footer {
+   margin-top:150px;
+@@ -172,7 +172,7 @@ img {
+   padding: 10px 0;
+ }
+ .toolbar .breadcrumb a {
+-  color: #003164;
++  color: #417400;
+ }
+ .wrapper {
+   margin-top: 25px;
+@@ -195,7 +195,7 @@ img {
+ }
+ .wrapper-custom .primary .media-grid .media-item .media-heading {
+   font-size: 300;
+-  color: #003164;
++  color: #417400;
+   margin-top: 10px;
+ }
+ .wrapper-custom .primary .media-grid .media-item a {
+@@ -223,14 +223,14 @@ img {
+   border-right: none !important;
+ }
+ .wrapper-custom .primary .nav-tabs li.active a {
+-  border-bottom: 3px solid #003164;
+-  color: #003164 !important;
++  border-bottom: 3px solid #417400;
++  color: #417400 !important;
+   border-top: none !important;
+   border-left: none !important;
+   border-right: none !important;
+ }
+ .wrapper-custom .primary .nav-tabs li:hover a {
+-  border-bottom: 3px solid #003164;
++  border-bottom: 3px solid #417400;
+   border-top: none !important;
+   border-left: none !important;
+   border-right: none !important;
+@@ -348,7 +348,7 @@ button.active {
+ 
+ .stages li.active .highlight {
+   color: #fff;
+-  background: #003164 !important;
++  background: #417400 !important;
+ }
+ 
+ .stages li.active:after {
+@@ -362,7 +362,7 @@ button.active {
+ }
+ /* About */
+ .about .page-heading {
+-  color: #003164;
++  color: #417400;
+ }
+ /* dateset search page */
+ @media only screen and (max-width: 768px) {
+@@ -399,7 +399,7 @@ button.active {
+   margin-bottom: 3px !important;
+ }
+ .dataset-search .dataset-item h3 a {
+-  color: #003164 !important;
++  color: #417400 !important;
+ }
+ .dataset-search .dataset-item .dataset-resources li a {
+   padding: 3px 18px 3px 18px !important;
+@@ -426,7 +426,7 @@ button.active {
+ }
+ 
+ .badge-label:hover, .badge-label:focus {
+-  background-color: #003164;
++  background-color: #417400;
+ }
+ 
+ .h1-search {
+@@ -670,17 +670,17 @@ button.active {
+ @media only screen and (max-width: 768px) {
+   .navbar-toggle {
+     margin-right: 20px !important;
+-    background-color: #003164;
++    background-color: #417400;
+     padding: 6px 10px;
+   }
+   .navbar-toggle:hover {
+-    background-color: #003164 !important;
++    background-color: #417400 !important;
+   }
+   .navbar-toggle:focus {
+-    background-color: #003164 !important;
++    background-color: #417400 !important;
+   }
+   .navbar-toggle:active {
+-    background-color: #003164 !important;
++    background-color: #417400 !important;
+   }
+   .media-grid .media-item {
+     width: 100% !important;
+@@ -1327,13 +1327,13 @@ img.item_image {
+ .homepage .module-search .module-content .heading {
+   font-size: 3.5em;
+   font-weight: 500;
+-  color: #2f88a3;
++  color: #83b62c;
+ }
+ 
+ .homepage .module-search .module-content .heading-layout2 {
+   font-size: 3em;
+   font-weight: 500;
+-  color: #2f88a3;
++  color: #83b62c;
+ }
+ 
+ @media screen and (max-width: 480px) {
+@@ -1362,7 +1362,7 @@ img.item_image {
+   margin-top: 20px;
+ }
+ .homepage .module-search .search-giant input {
+-  border-color: #003164;
++  border-color: #417400;
+   height: 60px;
+   border: 1px solid #eee;
+   border-radius: 6px;
+@@ -1381,9 +1381,9 @@ img.item_image {
+ .tag {
+   display: inline-block;
+   color: #fff;
+-  background-color: #003164;
++  background-color: #176400;
+   padding: 1px 14px;
+-  border-radius: 4px;
++  border-radius: 8px;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+   font-size: 12px;
+@@ -1391,13 +1391,6 @@ img.item_image {
+   margin: 3px;
+ }
+ 
+-.tag-list {
+-  padding-left: 0;
+-  margin: 0;
+-  list-style: none;
+-  padding: 5px;
+-}
+-
+ .tag img {
+   display: inline-block;
+   height: 22px;
+@@ -1414,13 +1407,13 @@ a.tag:hover {
+   text-decoration: none;
+   font-weight: 600;
+   color: #fff;
+-  background-color: #003164;
++  background-color: #83b62c;
+   border: 1px solid #176400;
+   -webkit-box-shadow: none;
+   box-shadow: none;
+ }
+ .tag:hover {
+-  background-color: #2e88a3;
++  background-color: #83b62c;
+ }
+ 
+ /* Homepage stats */
+@@ -1433,7 +1426,7 @@ a.tag:hover {
+ /* Homepage Totals */
+ .totals {
+   padding: 40px 0 35px 0;
+-  background: #003164;
++  background: #417400;
+   color: #fff;
+ }
+ .totals p,
+@@ -1464,7 +1457,7 @@ a.tag:hover {
+   }
+ }
+ .group .media-heading a {
+-  color: #003164 !important;
++  color: #417400 !important;
+   font-size: 15px;
+   font-weight: 600;
+ }
+@@ -1543,7 +1536,7 @@ a.endpoints_layout1:hover {
+   }
+ }
+ .organization .media-heading a {
+-  color: #003164 !important;
++  color: #417400 !important;
+ }
+ .organization .dataset-item {
+   margin-top: 10px;
+@@ -1574,7 +1567,7 @@ a.endpoints_layout1:hover {
+ /*Reutilization Section */
+ .reuti {
+   margin-top: 50px;
+-  background-color: #003164;
++  background-color: #417400;
+   color: #fff;
+   background-image: url('/images/bg-dark.png');
+   background-size: cover;
+@@ -1623,14 +1616,14 @@ a.endpoints_layout1:hover {
+   padding: 6px 0 0 0;
+ }
+ .news h4 a {
+-  color: #003164;
++  color: #417400;
+   font-size: 1.4em;
+   font-weight: 600;
+ }
+ /* Sub footer */
+ .subfooter {
+   padding: 30px 0;
+-  background-color: #003164;
++  background-color: #417400;
+ }
+ .subfooter h3 {
+   color: #fff;
+@@ -1869,4 +1862,10 @@ input#lang-r ~ div .example-r {
+ 
+ input#lang-r:checked ~ div .example-r {
+   display: block;
++}
++
++/* IEPNB */
++.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
++  background-color: #83b62c !important;
++  border-color: #488241 !important;
+ }
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/about.html b/ckanext/schemingdcat/templates/home/about.html
+deleted file mode 100644
+index 0eb3b94..0000000
+--- a/ckanext/schemingdcat/templates/home/about.html
++++ /dev/null
+@@ -1,24 +0,0 @@
+-{% extends "page.html" %}
+-
+-{% block subtitle %}{{ _('About') }}{% endblock %}
+-
+-{% block breadcrumb_content %}
+-  <li class="active">{% link_for _('About'), 'home.about' %}</li>
+-{% endblock %}
+-
+-{% block primary %}
+-  <article class="module about" role="main">
+-    <div class="module-content">
+-      {% block about %}
+-        {% if g.site_about %}
+-          {{ h.render_markdown(g.site_about) }}
+-        {% else %}
+-          <h1 class="page-heading">{{ _('About') }}</h1>
+-          {% snippet 'home/snippets/about_text.html' %}
+-        {% endif %}
+-      {% endblock %}
+-    </div>
+-  </article>
+-{% endblock %}
+-
+-{% block secondary %}{% endblock %}
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/index.html b/ckanext/schemingdcat/templates/home/index.html
+deleted file mode 100644
+index 5e28bf8..0000000
+--- a/ckanext/schemingdcat/templates/home/index.html
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{% extends "page.html" %}
+-{% set homepage_style = ( g.homepage_style or '1' ) %}
+-
+-{% block subtitle %}{{ _("Welcome") }}{% endblock %}
+-
+-{% block maintag %}{% endblock %}
+-{% block toolbar %}{% endblock %}
+-
+-{% block content %}
+-  <div class="homepage layout-{{ homepage_style }}">
+-    <div id="content" class="container">
+-      {{ self.flash() }}
+-    </div>
+-    {% block primary_content %}
+-      {% snippet "home/layout{0}.html".format(homepage_style) %}
+-    {% endblock %}
+-  </div>
+-{% endblock %}
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/layout1.html b/ckanext/schemingdcat/templates/home/layout1.html
+deleted file mode 100644
+index e116d78..0000000
+--- a/ckanext/schemingdcat/templates/home/layout1.html
++++ /dev/null
+@@ -1,37 +0,0 @@
+-<div role="main">
+-  <div class="main hero">
+-    <div class="container">
+-      <div class="row row1">
+-        <div class="col-md-12">
+-          {% block search %}
+-            {% snippet 'home/snippets/search.html' %}
+-          {% endblock %}
+-          {% block endpoints %}
+-            {% snippet 'home/snippets/endpoints_layout1.html' %}
+-          {% endblock %}
+-        </div>
+-      </div>
+-    </div>
+-  </div>
+-  <div class="main">
+-    <div class="container">
+-      <div class="row row2">
+-        <div class="col-md-6 col1">
+-          {# Note: this featured_group block is used as an example in the theming
+-             tutorial in the docs! If you change this code, be sure to check
+-             whether you need to update the docs. #}
+-          {# Start template block example. #}
+-          {% block featured_group %}
+-            {% snippet 'home/snippets/featured_group.html' %}
+-          {% endblock %}
+-          {# End template block example. #}
+-        </div>
+-        <div class="col-md-6 col2">
+-          {% block featured_organization %}
+-            {% snippet 'home/snippets/featured_organization.html' %}
+-          {% endblock %}
+-        </div>
+-      </div>
+-    </div>
+-  </div>
+-</div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/layout2.html b/ckanext/schemingdcat/templates/home/layout2.html
+deleted file mode 100644
+index 79e53de..0000000
+--- a/ckanext/schemingdcat/templates/home/layout2.html
++++ /dev/null
+@@ -1,38 +0,0 @@
+-<div role="main" class="hero">
+-    <div class="container">
+-      <div class="row row1">
+-        <div class="col-md-6 col1">
+-          {% block search %}
+-            {% snippet 'home/snippets/search.html' %}
+-          {% endblock %}
+-          {% block stats %}
+-            {% snippet 'home/snippets/stats.html' %}
+-          {% endblock %}
+-        </div>
+-        <div class="col-md-6 col2">
+-          {% block promoted %}
+-            {% snippet 'home/snippets/promoted.html' %}
+-          {% endblock %}
+-          {% block endpoints %}
+-            {% snippet 'home/snippets/endpoints.html' %}
+-          {% endblock %}
+-        </div>
+-      </div>
+-    </div>
+-  </div>
+-  <div role="main">
+-    <div class="container">
+-      <div class="row row2">
+-        <div class="col-md-6 col2">
+-          {% block featured_organization %}
+-            {% snippet 'home/snippets/featured_organization.html' %}
+-          {% endblock %}
+-        </div>
+-        <div class="col-md-6 col1">
+-          {% block featured_group %}
+-            {% snippet 'home/snippets/featured_group.html' %}
+-          {% endblock %}
+-        </div>
+-      </div>
+-    </div>
+-  </div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/layout3.html b/ckanext/schemingdcat/templates/home/layout3.html
+deleted file mode 100644
+index 781f61e..0000000
+--- a/ckanext/schemingdcat/templates/home/layout3.html
++++ /dev/null
+@@ -1,28 +0,0 @@
+-<div role="main" class="hero">
+-    <div class="container">
+-      {% block search %}
+-        {% snippet 'home/snippets/search.html' %}
+-      {% endblock %}
+-    </div>
+-  </div>
+-  <div role="main">
+-    <div class="container">
+-      <div class="row row2">
+-        <div class="col-md-6 col2">
+-          {% block promoted %}
+-            {% snippet 'home/snippets/promoted.html' %}
+-          {% endblock %}
+-        </div>
+-        <div class="col-md-6 col1">
+-          {% block stats %}
+-            {% snippet 'home/snippets/stats.html' %}
+-          {% endblock %}
+-        </div>
+-        <div class="col-md-6 col1">
+-            {% block endpoints %}
+-                {% snippet 'home/snippets/endpoints.html' %}
+-            {% endblock %}
+-        </div>
+-      </div>
+-    </div>
+-  </div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/about_text.html b/ckanext/schemingdcat/templates/home/snippets/about_text.html
+deleted file mode 100644
+index 97505f3..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/about_text.html
++++ /dev/null
+@@ -1,20 +0,0 @@
+-{% trans %}
+-<p>CKAN is the world’s leading open-source data portal platform.</p>
+-
+-<p>CKAN is a complete out-of-the-box software solution that makes data
+-accessible and usable – by providing tools to streamline publishing, sharing,
+-finding and using data (including storage of data and provision of robust data
+-APIs). CKAN is aimed at data publishers (national and regional governments,
+-companies and organizations) wanting to make their data open and available.</p>
+-
+-<p>CKAN is used by governments and user groups worldwide and powers a variety
+-of official and community data portals including portals for local, national
+-and international government, such as the UK’s <a href="http://data.gov.uk">data.gov.uk</a> and the
+-European Union’s <a href="http://publicdata.eu/">publicdata.eu</a>, the Brazilian <a href="http://dados.gov.br/">dados.gov.br</a>, Dutch and
+-Netherland government portals, as well as city and municipal sites in the US,
+-UK, Argentina, Finland and elsewhere.</p>
+-
+-<p>CKAN: <a href="http://ckan.org/">http://ckan.org/</a><br />
+-CKAN Tour: <a href="http://ckan.org/tour/">http://ckan.org/tour/</a><br />
+-Features overview: <a href="http://ckan.org/features/">http://ckan.org/features/</a></p>
+-{% endtrans %}
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/endpoints.html b/ckanext/schemingdcat/templates/home/snippets/endpoints.html
+deleted file mode 100644
+index a6a599d..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/endpoints.html
++++ /dev/null
+@@ -1,24 +0,0 @@
+-{% set endpoints = h.schemingdcat_get_catalog_endpoints() %}
+-
+-<div class="box">
+-    <div class="inner">
+-        <h3>{{ _('Catalog endpoints') }}</h3>   
+-        <div class="addons">
+-            {% for endpoint in endpoints %}
+-                {% if endpoint.type == 'ogc' %}
+-                
+-                {% if h.is_url(endpoint.endpoint) %}
+-                    {% set csw_uri = h.url_for_static_or_external(endpoint.endpoint) %}
+-                {% else %}
+-                    {% set csw_uri = h.get_site_protocol_and_host()[0] +'://' + h.get_site_protocol_and_host()[1] + '/' + endpoint.endpoint %}
+-                {% endif %}
+-
+-                    <a class="tag endpoint" href="{{ csw_uri }}"><i class="fa fa-globe"> </i> {{ endpoint.display_name  }}  <img src="{{ h.url_for_static(endpoint.image_display_url) }}" alt="{{ endpoint.display_name }}"></a>
+-
+-                {% elif endpoint.type == 'lod' %}
+-                    <a class="tag endpoint" href="{{ h.url_for(endpoint.endpoint, **endpoint.endpoint_data) }}"><i class="fa fa-share-alt"> </i> {{ endpoint.display_name }}  <img src="{{ h.url_for_static(endpoint.image_display_url) }}" alt="{{ endpoint.display_name }}"></a>
+-                {% endif %}
+-            {% endfor %}
+-        </div>
+-    </div>
+-</div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/endpoints_layout1.html b/ckanext/schemingdcat/templates/home/snippets/endpoints_layout1.html
+deleted file mode 100644
+index 4a17c37..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/endpoints_layout1.html
++++ /dev/null
+@@ -1,24 +0,0 @@
+-{% set endpoints = h.schemingdcat_get_catalog_endpoints() %}
+-
+-<div class="box">
+-    <div class="inner">
+-        <h3>{{ _('Catalog endpoints') }}</h3>   
+-        <div class="addons">
+-            {% for endpoint in endpoints %}
+-                {% if endpoint.type == 'ogc' %}
+-                
+-                {% if h.is_url(endpoint.endpoint) %}
+-                    {% set csw_uri = h.url_for_static_or_external(endpoint.endpoint) %}
+-                {% else %}
+-                    {% set csw_uri = h.get_site_protocol_and_host()[0] +'://' + h.get_site_protocol_and_host()[1] + '/' + endpoint.endpoint %}
+-                {% endif %}
+-
+-                    <a class="tag endpoints_layout1" href="{{ csw_uri }}"><i class="fa fa-globe"> </i> {{ endpoint.display_name  }}  <img src="{{ h.url_for_static(endpoint.image_display_url) }}" alt="{{ endpoint.display_name }}"></a>
+-
+-                {% elif endpoint.type == 'lod' %}
+-                    <a class="tag endpoints_layout1" href="{{ h.url_for(endpoint.endpoint, **endpoint.endpoint_data) }}"><i class="fa fa-share-alt"> </i> {{ endpoint.display_name }}  <img src="{{ h.url_for_static(endpoint.image_display_url) }}" alt="{{ endpoint.display_name }}"></a>
+-                {% endif %}
+-            {% endfor %}
+-        </div>
+-    </div>
+-</div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/featured_group.html b/ckanext/schemingdcat/templates/home/snippets/featured_group.html
+deleted file mode 100644
+index 3ac40e9..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/featured_group.html
++++ /dev/null
+@@ -1,7 +0,0 @@
+-{% set groups = h.get_featured_groups() %}
+-
+-{% for group in groups %}
+-  <div class="box">
+-    {% snippet 'schemingdcat/snippets/group_item.html', group=group, truncate=50, truncate_title=35 %}
+-  </div>
+-{% endfor %}
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/featured_organization.html b/ckanext/schemingdcat/templates/home/snippets/featured_organization.html
+deleted file mode 100644
+index 722f4c7..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/featured_organization.html
++++ /dev/null
+@@ -1,7 +0,0 @@
+-{% set organizations = h.get_featured_organizations() %}
+-
+-{% for organization in organizations %}
+-  <div class="box">
+-    {% snippet 'schemingdcat/snippets/organization_item.html', organization=organization, truncate=50, truncate_title=35 %}
+-  </div>
+-{% endfor %}
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/promoted.html b/ckanext/schemingdcat/templates/home/snippets/promoted.html
+deleted file mode 100644
+index 52bb4ef..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/promoted.html
++++ /dev/null
+@@ -1,27 +0,0 @@
+-{% set intro = h.schemingdcat_extract_lang_text(g.site_intro_text, h.schemingdcat_get_current_lang())  %}
+-
+-<div class="module-content box">
+-  <div>
+-    {% if intro %}
+-      {{ h.render_markdown(intro) }}
+-    {% else %}
+-      <h1 class="page-heading">{{ _("Welcome to CKAN") }}</h1>
+-      <p>
+-        {% trans %}This is a nice introductory paragraph about CKAN or the site
+-        in general. We don't have any copy to go here yet but soon we will
+-        {% endtrans %}
+-      </p>
+-    {% endif %}
+-  </div>
+-
+-  {% block home_image %}
+-    <section class="featured media-overlay hidden-xs">
+-      <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2>
+-      {% block home_image_content %}
+-        <a class="media-image" href="#">
+-          <img class="img-responsive" src="{{ h.url_for_static('/base/images/placeholder-420x220.png') }}" alt="Placeholder" width="420" height="220" />
+-        </a>
+-      {% endblock %}
+-    </section>
+-  {% endblock %}
+-</div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/search.html b/ckanext/schemingdcat/templates/home/snippets/search.html
+deleted file mode 100644
+index bc3e64c..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/search.html
++++ /dev/null
+@@ -1,25 +0,0 @@
+-{% set tags = h.get_facet_items_dict('tags', c.search_facets, limit=6
+-
+-) %}
+-{% set placeholder = _('E.g. environment') %}
+-
+-{% set heading_title = c.site_title or _('Open Data Catalog')%}
+-
+-<div class="module module-search module-narrow module-shallow box">
+-  <form class="module-content search-form" method="get" action="{% url_for 'dataset.search' %}">
+-    <h3 class="heading-layout2">{{ heading_title }}</h3>
+-    <div class="search-input form-group search-giant">
+-      <input aria-label="{% block header_site_search_label %}{{ _('Search datasets') }}{% endblock %}" id="field-main-search" type="text" class="form-control" name="q" value="" autocomplete="off" placeholder="{% block search_placeholder %}{{ placeholder }}{% endblock %}" />
+-      <button type="submit" aria-labelledby="search-label">
+-        <i class="fa fa-search"></i>
+-        <span class="sr-only" id="search-label">{{ _('Search') }}</span>
+-      </button>
+-    </div>
+-  </form>
+-  <div class="tags">
+-    <h3>{{ _('Popular tags') }}</h3>
+-    {% for tag in tags %}
+-      <a class="tag" href="{% url_for 'dataset.search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
+-    {% endfor %}
+-  </div>
+-</div>
+\ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/home/snippets/stats.html b/ckanext/schemingdcat/templates/home/snippets/stats.html
+deleted file mode 100644
+index 1738513..0000000
+--- a/ckanext/schemingdcat/templates/home/snippets/stats.html
++++ /dev/null
+@@ -1,31 +0,0 @@
+-{% set stats = h.get_site_statistics() %}
+-
+-<div class="box stats">
+-  <div class="inner">
+-    <h3>{{ _('{0} statistics').format(g.site_title) }}</h3>
+-    <ul>
+-      {% block stats_group %}
+-        <div class="addons">
+-        <li>
+-          <a href="{{ h.url_for('dataset.search') }}">
+-            <strong>{{ h.SI_number_span(stats.dataset_count) }}</strong>
+-            {{ _('dataset') if stats.dataset_count == 1 else _('datasets') }}
+-          </a>
+-        </li>
+-        <li>
+-          <a href="{{ h.url_for(controller='organization', action='index') }}">
+-            <strong>{{ h.SI_number_span(stats.organization_count) }}</strong>
+-            {{ _('organization') if stats.organization_count == 1 else _('organizations') }}
+-          </a>
+-        </li>
+-        <li>
+-          <a href="{{ h.url_for(controller='group', action='index') }}">
+-            <strong>{{ h.SI_number_span(stats.group_count) }}</strong>
+-            {{ _('group') if stats.group_count == 1 else _('groups') }}
+-          </a>
+-        </li>
+-      </div>
+-      {% endblock %}
+-    </ul>
+-  </div>
+-</div>
+\ No newline at end of file
