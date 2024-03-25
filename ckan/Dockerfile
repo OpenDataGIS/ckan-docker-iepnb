@@ -20,7 +20,7 @@ COPY req_fixes req_fixes
 ### Resource dictionary - v1.0.1 ###
 ### Pages - v0.5.2 ###
 ### PDFView - 0.0.8 ###
-### Scheming DCAT - v1.2.2 (IEPNB compatible/GeoDCAT-AP extended version) ###
+### Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version) ###
 ### SPARQL Interface - 2.0.2-iepnb ###
 ### IEPNB Theme - 2.0.3.1 ###
 RUN echo ${TZ} > /etc/timezone && \
@@ -54,8 +54,8 @@ RUN echo ${TZ} > /etc/timezone && \
     echo "mjanez/ckanext-fluent" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-fluent.git@v1.0.1#egg=ckanext-fluent && \
     echo "mjanez/ckanext-schemingdcat" && \
-    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v1.2.2#egg=ckanext_schemingdcat && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v1.2.2/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.0.0#egg=ckanext_schemingdcat && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v3.0.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.3.1#egg=ckanext-iepnb && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.3.1/requirements.txt && \
