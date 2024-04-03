@@ -38,6 +38,7 @@ Available components:
 | CKAN Version | Type | Docker tag | Notes |
 | --- | --- | --- | --- |
 | 2.9.8 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.8` | Stable version with CKAN 2.9.8 |
+| 2.9.9 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.9` | Stable version with CKAN 2.9.9 |
 | 2.9.11 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.11` | Stable version with CKAN 2.9.11 |
 | 2.9.11 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.11` | Stable version with CKAN 2.9.11 |
 | 2.9.11 | latest custom image  `ghcr.io/opendatagis/ckan-iepnb:master` | Latest `ckan-iepnb` image. |
