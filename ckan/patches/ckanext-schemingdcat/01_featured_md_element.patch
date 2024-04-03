@@ -1,0 +1,33 @@
+diff --git a/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml b/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
+index 6dc0141..2f487e0 100644
+--- a/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
++++ b/ckanext/schemingdcat/schemas/geodcatap_es/geodcatap_es_dataset.yaml
+@@ -42,6 +42,28 @@ dataset_fields:
+   form_languages: ["es", "en"]
+   required_language: "es"
+ 
++# Featured Dataset
++- field_name: featured
++  label:
++    en: Featured Dataset
++    es: Conjunto de Datos destacado
++  preset: select
++  validators: scheming_required boolean_validator
++  output_validators: boolean_validator
++  required: True
++  choices:
++    - label:
++        en: "No"
++        es: "No"
++      value: False
++    - label:
++        en: "Yes"
++        es: "Si"
++      value: True
++  help_text:
++    en: Featured Dataset to add to the CMS.
++    es: Conjunto de datos para el contenido destacado del CMS.
++
+ # Dataset locator (O)
+ ## For all resources that is equivalent to this element, such as a URI (of dcat:Dataset) 
+ - field_name: name
