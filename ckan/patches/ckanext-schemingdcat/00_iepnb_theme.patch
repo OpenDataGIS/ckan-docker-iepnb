@@ -1,5 +1,5 @@
 diff --git a/ckanext/schemingdcat/assets/css/schemingdcat.css b/ckanext/schemingdcat/assets/css/schemingdcat.css
-index 29a2a04..6ed03e2 100644
+index 300eec5..85422b4 100644
 --- a/ckanext/schemingdcat/assets/css/schemingdcat.css
 +++ b/ckanext/schemingdcat/assets/css/schemingdcat.css
 @@ -40,17 +40,17 @@ h6 {
@@ -167,18 +167,15 @@ index 29a2a04..6ed03e2 100644
    height: 60px;
    border: 1px solid #eee;
    border-radius: 6px;
-@@ -1381,9 +1381,9 @@ img.item_image {
+@@ -1381,7 +1381,7 @@ img.item_image {
  .tag {
    display: inline-block;
    color: #fff;
 -  background-color: #003164;
-+  background-color: #176400;
++  background-color: #417400;
    padding: 1px 14px;
--  border-radius: 4px;
-+  border-radius: 8px;
+   border-radius: 4px;
    -webkit-box-shadow: none;
-   box-shadow: none;
-   font-size: 12px;
 @@ -1391,13 +1391,6 @@ img.item_image {
    margin: 3px;
  }
@@ -193,22 +190,15 @@ index 29a2a04..6ed03e2 100644
  .tag img {
    display: inline-block;
    height: 22px;
-@@ -1414,13 +1407,13 @@ a.tag:hover {
+@@ -1414,7 +1407,7 @@ a.tag:hover {
    text-decoration: none;
    font-weight: 600;
    color: #fff;
 -  background-color: #003164;
-+  background-color: #83b62c;
++  background-color: #417400;
    border: 1px solid #176400;
    -webkit-box-shadow: none;
    box-shadow: none;
- }
- .tag:hover {
--  background-color: #2e88a3;
-+  background-color: #83b62c;
- }
- 
- /* Homepage stats */
 @@ -1433,7 +1426,7 @@ a.tag:hover {
  /* Homepage Totals */
  .totals {
@@ -266,13 +256,15 @@ index 29a2a04..6ed03e2 100644
  
  input#lang-r:checked ~ div .example-r {
    display: block;
+-}
+\ No newline at end of file
 +}
 +
 +/* IEPNB */
 +.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
 +  background-color: #83b62c !important;
 +  border-color: #488241 !important;
- }
++   }
 \ No newline at end of file
 diff --git a/ckanext/schemingdcat/templates/home/about.html b/ckanext/schemingdcat/templates/home/about.html
 deleted file mode 100644
@@ -675,3 +667,20 @@ index 1738513..0000000
 -  </div>
 -</div>
 \ No newline at end of file
+diff --git a/ckanext/schemingdcat/templates/schemingdcat/package/read.html b/ckanext/schemingdcat/templates/schemingdcat/package/read.html
+index e4f1135..cbc5338 100644
+--- a/ckanext/schemingdcat/templates/schemingdcat/package/read.html
++++ b/ckanext/schemingdcat/templates/schemingdcat/package/read.html
+@@ -52,12 +52,6 @@
+       can_edit=h.check_access('package_update', {'id':pkg.id }) %}
+   {% endblock %}
+ 
+-  {% if pkg.spatial %}
+-  {% block package_dataset_extent %}
+-      {% snippet "schemingdcat/snippets/schemingdcat_dataset_map_additional_info.html", extent=pkg.spatial %}
+-  {% endblock %}
+-  {% endif %}
+-
+   {% block package_tags %}
+     {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+   {% endblock %}
