@@ -21,7 +21,7 @@ COPY req_fixes req_fixes
 ## Pages - v0.5.2 ##
 ## PDFView - 0.0.8 ##
 ## Fluent - v1.0.1  (mjanez/Forked stable version) ##
-## Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version) ##
+## Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version & Harvesters) ##
 ## SPARQL Interface - 2.0.2-iepnb ##
 ## IEPNB Theme - 2.0.3.1 ##
 RUN echo ${TZ} > /etc/timezone && \
