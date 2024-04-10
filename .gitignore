@@ -28,3 +28,4 @@ src/*
 
 # eidos
 bdn/eidos_ckan/data/*
+*.dump
