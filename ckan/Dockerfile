@@ -10,19 +10,20 @@ WORKDIR ${APP_DIR}
 # requirements.txt files fixed until next releases
 COPY req_fixes req_fixes
 
-# Extensions
-### XLoader - 1.0.1 ###
-### Harvester - v1.5.6 ###
-### Geoview - v0.1.0 ###
-### Spatial - v2.1.1 ###
-### DCAT - v1.6.0 (GeoDCAT-AP/NTI-RISP extended version) ###
-### Scheming - release-3.0.0 ###
-### Resource dictionary - v1.0.1 ###
-### Pages - v0.5.2 ###
-### PDFView - 0.0.8 ###
-### Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version) ###
-### SPARQL Interface - 2.0.2-iepnb ###
-### IEPNB Theme - 2.0.3.1 ###
+# CKAN configuration & extensions
+## XLoader - 1.0.1 ##
+## Harvest - v1.5.6 (Worker with supervisor) ##
+## Geoview - v0.1.0 ##
+## Spatial - v2.1.1 ##
+## DCAT - v1.6.0 (mjanez/GeoDCAT-AP/NTI-RISP extended version) ##
+## Scheming - release-3.0.0 ##
+## Resource dictionary - v1.0.1 (mjanez/Fixed version) ##
+## Pages - v0.5.2 ##
+## PDFView - 0.0.8 ##
+## Fluent - v1.0.1  (mjanez/Forked stable version) ##
+## Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version) ##
+## SPARQL Interface - 2.0.2-iepnb ##
+## IEPNB Theme - 2.0.3.1 ##
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime; fi && \
     # Remove apk cache
@@ -40,7 +41,7 @@ RUN echo ${TZ} > /etc/timezone && \
     echo "ckan/ckanext-spatial" && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-spatial.git@v2.1.1#egg=ckanext-spatial && \
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-spatial/requirements.txt && \
-    echo "mjanez/ckanext-dcat (GeoDCAT-AP extended version)" && \
+    echo "mjanez/ckanext-dcat (GeoDCAT-AP/NTI-RISP extended version)" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-dcat.git@v1.6.0#egg=ckanext-dcat && \
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-dcat/requirements.txt && \
     echo "ckan/ckanext-scheming" && \
@@ -51,9 +52,9 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-pages.git@v0.5.2#egg=ckanext-pages && \
     echo "ckan/ckanext-pdfview" && \
     pip3 install --no-cache-dir -e git+https://github.com/ckan/ckanext-pdfview.git@0.0.8#egg=ckanext-pdfview && \
-    echo "mjanez/ckanext-fluent" && \
+    echo "mjanez/ckanext-fluent (mjanez/Forked stable version)" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-fluent.git@v1.0.1#egg=ckanext-fluent && \
-    echo "mjanez/ckanext-schemingdcat" && \
+    echo "mjanez/ckanext-schemingdcat (GeoDCAT-AP/NTI-RISP extended version)" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.0.0#egg=ckanext_schemingdcat && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v3.0.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
