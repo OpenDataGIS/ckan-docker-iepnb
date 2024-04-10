@@ -12,9 +12,9 @@ index 6dc0141..2f487e0 100644
 +    en: Featured Dataset
 +    es: Conjunto de Datos destacado
 +  preset: select
-+  validators: scheming_required boolean_validator
++  validators: default(False) boolean_validator
 +  output_validators: boolean_validator
-+  required: True
++  required: False
 +  choices:
 +    - label:
 +        en: "No"
