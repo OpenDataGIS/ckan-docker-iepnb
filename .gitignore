@@ -23,9 +23,15 @@ src/*
 *.log
 .env.ckan-des
 .env.des-ckan
+.env.ckan-pre
+.env.pre-ckan
+.env.ckan-pro
+.env.pro-ckan
+.env.iepnb
 .env.ckan-des.*
 .env.des-ckan.*
+*.dump
+backups
 
 # eidos
 bdn/eidos_ckan/data/*
-*.dump
