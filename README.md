@@ -40,7 +40,6 @@ Available components:
 | 2.9.8 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.8` | Stable version with CKAN 2.9.8 |
 | 2.9.9 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.9` | Stable version with CKAN 2.9.9 |
 | 2.9.11 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.11` | Stable version with CKAN 2.9.11 |
-| 2.9.11 | custom image | `ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.11` | Stable version with CKAN 2.9.11 |
 | 2.9.11 | latest custom image  `ghcr.io/opendatagis/ckan-iepnb:master` | Latest `ckan-iepnb` image. |
 
 The non-CKAN images are as follows:
@@ -543,9 +542,9 @@ If need to use a backup, restore it:
 2. After cleaning the database you must do either [initialize it](https://docs.ckan.org/en/2.9/maintaining/database-management.html#initialization) or import a previously created dump.
 
     ```bash
-    docker exec -e PGPASSWORD=$POSTGRES_PASSWORD $POSTGRESQL_CONTAINER_NAME pg_restore -U $POSTGRES_USER --clean --if-exists -d $DATABASE_NAME < /path/to/your/backup/directory/ckan.dump
+    docker exec -i -e PGPASSWORD=$POSTGRES_PASSWORD $POSTGRESQL_CONTAINER_NAME pg_restore -U $POSTGRES_USER --clean --if-exists -d $DATABASE_NAME < /path/to/your/backup/directory/ckan.dump
     ```
-
+3. Restart the `ckan` container.
 
 ### CKAN. Manage new users
 
