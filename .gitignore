@@ -30,6 +30,7 @@ src/*
 .env.iepnb
 .env.ckan-des.*
 .env.des-ckan.*
+.env.iepnb.*
 *.dump
 backups
 
