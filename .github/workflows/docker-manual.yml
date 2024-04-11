@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: opendatagis/ckan-iepnb
-  TAG: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+  TAG: ghcr.io/opendatagis/ckan-iepnb:${{ github.ref_name }}
   CONTEXT: .
   BRANCH: ${{ github.ref_name }}
   DOCKERFILE_PATH: /ckan
@@ -39,7 +39,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           labels: |
-            org.opencontainers.image.documentation=https://github.com/${{ github.repository }}/blob/${{ env.BRANCH }}/README.md
+            org.opencontainers.image.documentation=https://github.com/opendatagis/ckan-iepnb/blob/${{ env.BRANCH }}/README.md
             org.opencontainers.image.version=${{ env.BRANCH }}
 
       - name: Build and push
