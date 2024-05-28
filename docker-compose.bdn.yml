@@ -1,15 +1,16 @@
-version: "3"
-
 volumes:
   ckan_storage:
+  ckan_logs:
   pg_data:
   solr_data:
+  pip_cache:
+  site_packages:
   bdn_data:
+
 
 services:
    
   apache:
-    container_name: ${APACHE_CONTAINER_NAME}
     build:
       context: apache/
       dockerfile: Dockerfile
@@ -20,43 +21,47 @@ services:
       options:
           max-size: "100m"
           max-file: "10"
+    networks:
+      - webnet
+      - ckannet
     depends_on:
-      ckan:
-        condition: service_healthy
+      - ckan
     ports:
       - "0.0.0.0:${APACHE_PORT_HOST}:${APACHE_PORT}"
     restart: on-failure:3
 
   ckan:
-    container_name: ${CKAN_CONTAINER_NAME}
     build:
       context: ckan/
       dockerfile: Dockerfile
       args:
         - TZ=${TZ}
+    networks:
+      - ckannet
+      - dbnet
+      - solrnet
+      - redisnet
     env_file:
       - .env
     logging:
       driver: "json-file"
       options:
+          max-size: "100m"
           max-file: "10"
     depends_on:
-      db:
-        condition: service_healthy
-      solr:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    ports:
-      - "0.0.0.0:${CKAN_PORT_HOST}:${CKAN_PORT}" 
+      - db
+      - solr
+      - redis
     volumes:
       - ckan_storage:/var/lib/ckan
+      - ckan_logs:/var/log
+      - pip_cache:/root/.cache/pip
+      - site_packages:/usr/lib/python3.9/site-packages
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${CKAN_PORT}"]
 
   pycsw:
-    container_name: ${PYCSW_CONTAINER_NAME}
     build:
       context: ckan-pycsw/
       dockerfile: Dockerfile
@@ -67,11 +72,11 @@ services:
       options:
           max-size: "100m"
           max-file: "10"
+    networks:
+      - webnet
+      - ckannet
     depends_on:
-      ckan:
-        condition: service_healthy
-    ports:
-      - "0.0.0.0:${PYCSW_PORT_HOST}:${PYCSW_PORT}"
+      - ckan
     volumes:
         - ./log:${APP_DIR}/log
         - ./metadata:${APP_DIR}/metadata
@@ -80,7 +85,6 @@ services:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${PYCSW_PORT}"]
 
   db:
-    container_name: ${POSTGRESQL_CONTAINER_NAME}
     build:
       context: postgresql/
       args:
@@ -90,6 +94,8 @@ services:
       - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/db
+    networks:
+       - dbnet
     volumes:
       - pg_data:/var/lib/postgresql/data
     logging:
@@ -99,10 +105,9 @@ services:
           max-file: "10"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "ckan"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
 
   bdndb:
-    container_name: ${BDN_CONTAINER_DB}
     build:
       context: postgresql/
       args:
@@ -124,10 +129,11 @@ services:
       test: ["CMD", "pg_isready", "-U", "ckan"]
 
   solr:
-    container_name: ${SOLR_CONTAINER_NAME}
     build:
       context: solr/
       dockerfile: Dockerfile.iepnb
+    networks:
+      - solrnet
     env_file:
       - .env
     logging:
@@ -142,19 +148,19 @@ services:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${SOLR_PORT}/solr/"]
 
   redis:
-    container_name: ${REDIS_CONTAINER_NAME}
     image: redis:${REDIS_VERSION}
     logging:
       driver: "json-file"
       options:
           max-size: "100m"
           max-file: "10"
+    networks:
+      - redisnet
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"]
 
   bdn:
-    container_name: ${BDN_CONTAINER_NAME}
     build:
       context: ckan/
       dockerfile: Dockerfile.bdn
@@ -167,14 +173,10 @@ services:
       options:
           max-file: "10"
     depends_on:
-      bdndb:
-        condition: service_healthy
-      solr:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      ckan:
-        condition: service_healthy
+      - bdndb
+      - solr
+      - redis
+      - ckan
     ports:
       - "0.0.0.0:${BDN_PORT_HOST}:${CKAN_PORT}" 
     volumes:
@@ -182,3 +184,13 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${CKAN_PORT}"]
+
+networks:
+  webnet:
+  ckannet:
+  solrnet:
+    internal: true
+  dbnet:
+    internal: true
+  redisnet:
+    internal: true

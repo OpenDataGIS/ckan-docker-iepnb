@@ -1,33 +1,30 @@
-version: "3"
-
 volumes:
   ckan_storage:
+  ckan_logs:
   pg_data:
   solr_data:
+  pip_cache:
+  site_packages:
+  vscode_server:
+
 
 services:
-   
   apache:
-    container_name: ${APACHE_CONTAINER_NAME}
     build:
       context: apache/
       dockerfile: Dockerfile
     env_file:
       - .env
-    logging:
-      driver: "json-file"
-      options:
-          max-size: "100m"
-          max-file: "10"
+    environment:
+      - CKAN_COMPOSE_SERVICE=${CKAN_DEV_COMPOSE_SERVICE}
+      - PROXY_CKAN_PROXY_PASS=http://${CKAN_DEV_COMPOSE_SERVICE}:${CKAN_PORT}
     depends_on:
-      ckan-dev:
-        condition: service_healthy
+      - ${CKAN_DEV_COMPOSE_SERVICE}
     ports:
       - "0.0.0.0:${APACHE_PORT_HOST}:${APACHE_PORT}"
     restart: on-failure:3
   
   ckan-dev:
-    container_name: ${CKAN_CONTAINER_NAME}
     build:
       context: ckan/
       dockerfile: Dockerfile.dev
@@ -40,24 +37,24 @@ services:
       options:
           max-size: "100m"
           max-file: "10"
-    depends_on:
-      db:
-        condition: service_healthy
-      solr:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+    links:
+      - db
+      - solr
+      - redis
     ports:
       - "0.0.0.0:${CKAN_PORT_HOST}:${CKAN_PORT}"
     volumes:
       - ckan_storage:/var/lib/ckan
+      - ckan_logs:/var/log
       - ./src:/srv/app/src_extensions
+      - pip_cache:/root/.cache/pip
+      - site_packages:/usr/lib/python3.9/site-packages
+      - vscode_server:/root/.vscode-server
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${CKAN_PORT}"]
 
   pycsw:
-    container_name: ${PYCSW_CONTAINER_NAME}
     build:
       context: ckan-pycsw/
       dockerfile: Dockerfile
@@ -69,8 +66,7 @@ services:
           max-size: "100m"
           max-file: "10"
     depends_on:
-      ckan-dev:
-        condition: service_healthy
+      - ${CKAN_DEV_COMPOSE_SERVICE}
     ports:
       - "0.0.0.0:${PYCSW_PORT_HOST}:${PYCSW_PORT}"
     volumes:
@@ -81,7 +77,6 @@ services:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${PYCSW_PORT}"]
     
   db:
-    container_name: ${POSTGRESQL_CONTAINER_NAME}
     build:
       context: postgresql/
       args:
@@ -100,10 +95,9 @@ services:
           max-file: "10"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "ckan"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
      
   solr:
-    container_name: ${SOLR_CONTAINER_NAME}
     build:
       context: solr/
       dockerfile: Dockerfile.iepnb
@@ -121,10 +115,6 @@ services:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:${SOLR_PORT}/solr/"]
 
   redis:
-    container_name: ${REDIS_CONTAINER_NAME}
-    # build:
-    #   context: redis/
-    #   dockerfile: Dockerfile
     image: redis:${REDIS_VERSION}
     logging:
       driver: "json-file"

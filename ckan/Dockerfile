@@ -21,9 +21,9 @@ COPY req_fixes req_fixes
 ## Pages - v0.5.2 ##
 ## PDFView - 0.0.8 ##
 ## Fluent - v1.0.1  (mjanez/Forked stable version) ##
-## Scheming DCAT - v3.0.0 (IEPNB compatible/GeoDCAT-AP extended version & Harvesters) ##
-## SPARQL Interface - 2.0.2-iepnb ##
-## IEPNB Theme - 2.0.3.1 ##
+## Scheming DCAT - v3.1.0 (IEPNB compatible/GeoDCAT-AP extended version & Harvesters) ##
+## SPARQL Interface - 2.0.3-iepnb ##
+## IEPNB Theme - 2.1.0 ##
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime; fi && \
     # Remove apk cache
@@ -55,14 +55,14 @@ RUN echo ${TZ} > /etc/timezone && \
     echo "mjanez/ckanext-fluent (mjanez/Forked stable version)" && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-fluent.git@v1.0.1#egg=ckanext-fluent && \
     echo "mjanez/ckanext-schemingdcat (GeoDCAT-AP/NTI-RISP extended version)" && \
-    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.0.0#egg=ckanext_schemingdcat && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v3.0.0/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.1.0#egg=ckanext_schemingdcat && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v3.1.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.0.3.1#egg=ckanext-iepnb && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.0.3.1/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.1.0#egg=ckanext-iepnb && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.1.0/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
-    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.2-iepnb#egg=ckanext-sparql_interface && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.2-iepnb/requirements.txt
+    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.3-iepnb#egg=ckanext-sparql_interface && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.3-iepnb/requirements.txt
 
 # Used to configure the container environment by setting environment variables, creating users, running initialization scripts, .etc
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
