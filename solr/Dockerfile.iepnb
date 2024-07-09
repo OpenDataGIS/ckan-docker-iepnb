@@ -61,10 +61,7 @@ ENV SOLR_BBOX_FIELDS '<field name="bbox_area" type="float" indexed="true" stored
     '<field name="dcat_type" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
     '<field name="dataset_scope" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
     '<field name="thematic_area" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
-    '<field name="iepnb_validator" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
-    '<field name="iepnb_validator_email" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
-    '<field name="iepnb_status" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>' \
-    '<field name="iepnb_db_table" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>'
+    '<field name="iepnb_status" type="string" uninvertible="false" docValues="true" indexed="true" stored="true" multiValued="true"/>'
 	
 RUN sed -i "/<fields>/a $SOLR_BBOX_FIELDS" $SOLR_SCHEMA_FILE
 
