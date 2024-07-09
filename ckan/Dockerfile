@@ -23,7 +23,7 @@ COPY req_fixes req_fixes
 ## Fluent - v1.0.1  (mjanez/Forked stable version) ##
 ## Scheming DCAT - v3.2.1 (IEPNB compatible/GeoDCAT-AP extended version & Harvesters) ##
 ## SPARQL Interface - 2.0.3-iepnb ##
-## IEPNB Theme - 2.2.0 ##
+## IEPNB Theme - 2.2.1 ##
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime; fi && \
     # Remove apk cache
@@ -58,8 +58,8 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.2.1#egg=ckanext_schemingdcat && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/mjanez/ckanext-schemingdcat/v3.2.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.2.0#egg=ckanext-iepnb && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.2.0/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.2.1#egg=ckanext-iepnb && \
+    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.2.1/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.3-iepnb#egg=ckanext-sparql_interface && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.3-iepnb/requirements.txt
