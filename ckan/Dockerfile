@@ -4,6 +4,9 @@ FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.11
 ENV APP_DIR=/srv/app
 ENV TZ=UTC
 
+# Argument for GitHub Token
+ARG ACCESS_TOKEN
+
 # Set working directory
 WORKDIR ${APP_DIR}
 
