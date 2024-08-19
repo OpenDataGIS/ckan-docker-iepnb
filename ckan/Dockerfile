@@ -56,8 +56,8 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.2.2#egg=ckanext_schemingdcat && \
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-schemingdcat/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-iepnb.git@2.2.1#egg=ckanext-iepnb && \
-    pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-iepnb/2.2.1/requirements.txt && \
+    pip3 install --no-cache-dir -e git+https://${ACCESS_TOKEN}@github.com/OpenDataGIS/ckanext-iepnb.git@2.2.1#egg=ckanext-iepnb && \
+    pip3 install --no-cache-dir -r -r ${APP_DIR}/src/ckanext-iepnb/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.3-iepnb#egg=ckanext-sparql_interface && \
     pip3 install --no-cache-dir -r https://raw.githubusercontent.com/OpenDataGIS/ckanext-sparql_interface/2.0.3-iepnb/requirements.txt
