@@ -46,5 +46,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           context: ./ckan
           file: ./ckan/Dockerfile
-          build-args: 
-            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          build-args: ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }}
