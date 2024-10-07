@@ -65,14 +65,14 @@ UWSGI_OPTS="--thunder-lock \
             --module wsgi:application \
             --uid 92 --gid 92 \
             --http [::]:5000 \
-            --max-requests 500 \
+            --max-requests 1000 \
             --max-worker-lifetime 3600 \
             --reload-on-rss 1024 \
-            --master
+            --master \
             --enable-threads \
             --lazy-apps \
             --processes 4 \
-            --buffer-size 32768 \
+            --buffer-size 65536 \
             --vacuum \
             --disable-logging \
             --log-4xx \

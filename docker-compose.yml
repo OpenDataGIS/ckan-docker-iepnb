@@ -26,7 +26,6 @@ services:
       - ckan
     ports:
       - "0.0.0.0:${NGINX_PORT_HOST}:${NGINX_PORT}"
-      - "0.0.0.0:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
     restart: on-failure:3
 
   ckan:
