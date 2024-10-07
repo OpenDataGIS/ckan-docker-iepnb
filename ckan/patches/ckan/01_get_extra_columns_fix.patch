@@ -1,0 +1,20 @@
+diff --git a/ckan/model/resource.py b/ckan/model/resource.py
+index 51cd5a707..26478fea2 100644
+--- a/ckan/model/resource.py
++++ b/ckan/model/resource.py
+@@ -124,12 +124,12 @@ class Resource(core.StatefulObjectMixin,
+             return CORE_RESOURCE_COLUMNS
+ 
+     @classmethod
+-    def get_extra_columns(cls):
++    def get_extra_columns(cls) -> list[str]:
+         if cls.extra_columns is None:
+-            cls.extra_columns = config.get(
+-                'ckan.extra_resource_fields', '').split()
++            cls.extra_columns = config.get("ckan.extra_resource_fields")
+             for field in cls.extra_columns:
+                 setattr(cls, field, DictProxy(field, 'extras'))
++        assert cls.extra_columns is not None
+         return cls.extra_columns
+ 
+     @classmethod
