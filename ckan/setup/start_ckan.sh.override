@@ -60,6 +60,8 @@ chown -R ckan:ckan $CKAN_LOGS_PATH/xloader
 # uwgsi CKAN 2.9 workaround
 UWSGI_OPTS="--thunder-lock \
             --ignore-sigpipe \
+            --ignore-write-errors \
+            --disable-write-exception \
             --plugins http,python \
             --socket /tmp/uwsgi.sock \
             --module wsgi:application \
