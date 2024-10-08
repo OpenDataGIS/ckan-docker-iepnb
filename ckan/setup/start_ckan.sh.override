@@ -57,6 +57,7 @@ chown -R ckan:ckan $CKAN_LOGS_PATH/xloader
 # Set the common uwsgi options. 
 ## Add thunder-lock to prevent multiple workers from running the same job and buffer-size to prevent large headers
 ## To increase performance, you can adjust the number of processes (-p) (More info: https://uwsgi-docs.readthedocs.io/en/latest/Options.html & https://www.bloomberg.com/company/stories/configuring-uwsgi-production-deployment/)
+# Fix uWSGI raises OSError: write error: https://stackoverflow.com/a/45393743
 # uwgsi CKAN 2.9 workaround
 UWSGI_OPTS="--thunder-lock \
             --ignore-sigpipe \
