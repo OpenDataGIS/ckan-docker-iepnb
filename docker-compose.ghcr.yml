@@ -8,25 +8,24 @@ volumes:
 
 
 services:
-   
-  apache:
+  nginx:
     build:
-      context: apache/
+      context: nginx/
       dockerfile: Dockerfile
     env_file:
       - .env
     logging:
       driver: "json-file"
       options:
-          max-size: "100m"
-          max-file: "10"
+        max-size: "100m"
+        max-file: "10"
     networks:
       - webnet
       - ckannet
     depends_on:
       - ckan
     ports:
-      - "0.0.0.0:${APACHE_PORT_HOST}:${APACHE_PORT}"
+      - "0.0.0.0:${NGINX_PORT_HOST}:${NGINX_PORT}"
     restart: on-failure:3
 
   ckan:
@@ -45,8 +44,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "100m"
-          max-file: "10"
+        max-size: "100m"
+        max-file: "10"
     depends_on:
       - db
       - solr
@@ -87,7 +86,7 @@ services:
     build:
       context: postgresql/
     networks:
-       - dbnet
+      - dbnet
     environment:
       - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -97,12 +96,12 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "100m"
-          max-file: "10"
+        max-size: "100m"
+        max-file: "10"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
-     
+
   solr:
     build:
       context: solr/
@@ -114,8 +113,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "100m"
-          max-file: "10"
+        max-size: "100m"
+        max-file: "10"
     volumes:
       - solr_data:/var/solr
     restart: unless-stopped
@@ -127,8 +126,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "100m"
-          max-file: "10"
+        max-size: "100m"
+        max-file: "10"
     networks:
       - redisnet
     restart: unless-stopped
