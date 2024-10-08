@@ -67,9 +67,10 @@ UWSGI_OPTS="--thunder-lock \
             --http [::]:5000 \
             --max-requests 1000 \
             --max-worker-lifetime 3600 \
-            --reload-on-rss 1024 \
+            --reload-on-rss 4048 \
             --master \
             --enable-threads \
+            --threads=8 \
             --lazy-apps \
             --processes 4 \
             --buffer-size 65536 \
@@ -79,7 +80,7 @@ UWSGI_OPTS="--thunder-lock \
             --log-5xx \
             --auto-procname \
             --procname-prefix 'ckan-' \
-            --harakiri $UWSGI_HARAKIRI \
+            --harakiri 130 \
             --socket-timeout 60"
 
 if [ $? -eq 0 ]
