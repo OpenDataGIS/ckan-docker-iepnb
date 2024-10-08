@@ -1,0 +1,139 @@
+server {
+    listen       ${NGINX_PORT};
+    listen  [::]:${NGINX_PORT};
+    listen       ${NGINX_SSLPORT} ssl;
+    listen  [::]:${NGINX_SSLPORT} ssl;
+    server_name  ${PROXY_SERVER_NAME};
+    ssl_certificate /etc/nginx/certs/ckan-local.crt;
+    ssl_certificate_key /etc/nginx/certs/ckan-local.key;
+
+    # Block bots
+    deny 185.191.171.13;
+    deny 34.117.179.219;
+    deny 85.208.96.198;
+    if ($http_user_agent ~* (360Spider|80legs.com|Abonti|AcoonBot|Acunetix|adbeat_bot|AddThis.com|adidxbot|ADmantX|AhrefsBot|AngloINFO|Antelope|Applebot|BaiduSpider|BeetleBot|billigerbot|binlar|bitlybot|BlackWidow|BLP_bbot|BoardReader|Bolt\ 0|BOT\ for\ JCE|Bot\ mailto\:craftbot@yahoo\.com|casper|CazoodleBot|CCBot|checkprivacy|ChinaClaw|chromeframe|Clerkbot|Cliqzbot|clshttp|CommonCrawler|comodo|CPython|crawler4j|Crawlera|CRAZYWEBCRAWLER|Curious|Curl|Custo|CWS_proxy|Default\ Browser\ 0|diavol|DigExt|Digincore|DIIbot|discobot|DISCo|DoCoMo|DotBot|Download\ Demon|DTS.Agent|EasouSpider|eCatch|ecxi|EirGrabber|Elmer|EmailCollector|EmailSiphon|EmailWolf|Exabot|ExaleadCloudView|ExpertSearchSpider|ExpertSearch|Express\ WebPictures|ExtractorPro|extract|EyeNetIE|Ezooms|F2S|FastSeek|feedfinder|FeedlyBot|FHscan|finbot|Flamingo_SearchEngine|FlappyBot|FlashGet|flicky|Flipboard|g00g1e|Genieo|genieo|GetRight|GetWeb\!|GigablastOpenSource|GozaikBot|Go\!Zilla|Go\-Ahead\-Got\-It|GrabNet|grab|Grafula|GrapeshotCrawler|GTB5|GT\:\:WWW|Guzzle|harvest|heritrix|HMView|HomePageBot|HTTP\:\:Lite|HTTrack|HubSpot|ia_archiver|icarus6|IDBot|id\-search|IlseBot|Image\ Stripper|Image\ Sucker|Indigonet|Indy\ Library|integromedb|InterGET|InternetSeer\.com|Internet\ Ninja|IRLbot|ISC\ Systems\ iRc\ Search\ 2\.1|jakarta|Java|JetCar|JobdiggerSpider|JOC\ Web\ Spider|Jooblebot|kanagawa|KINGSpider|kmccrew|larbin|LeechFTP|libwww|Lingewoud|LinkChecker|linkdexbot|LinksCrawler|LinksManager\.com_bot|linkwalker|LinqiaRSSBot|LivelapBot|ltx71|LubbersBot|lwp\-trivial|Mail.RU_Bot|masscan|Mass\ Downloader|maverick|Maxthon$|Mediatoolkitbot|MegaIndex|MegaIndex|megaindex|MFC_Tear_Sample|Microsoft\ URL\ Control|microsoft\.url|MIDown\ tool|miner|Missigua\ Locator|Mister\ PiX|mj12bot|Mozilla.*Indy|Mozilla.*NEWT|MSFrontPage|msnbot|Navroad|NearSite|NetAnts|netEstate|NetSpider|NetZIP|Net\ Vampire|NextGenSearchBot|nutch|Octopus|Offline\ Explorer|Offline\ Navigator|OpenindexSpider|OpenWebSpider|OrangeBot|Owlin|PageGrabber|PagesInventory|panopta|panscient\.com|Papa\ Foto|pavuk|pcBrowser|PECL\:\:HTTP|PeoplePal|Photon|PHPCrawl|planetwork|PleaseCrawl|PNAMAIN.EXE|PodcastPartyBot|prijsbest|proximic|psbot|purebot|pycurl|QuerySeekerSpider|R6_CommentReader|R6_FeedFetcher|RealDownload|ReGet|Riddler|Rippers\ 0|rogerbot|RSSingBot|rv\:1.9.1|RyzeCrawler|SafeSearch|SBIder|Scrapy|Scrapy|Screaming|SeaMonkey$|search.goo.ne.jp|SearchmetricsBot|search_robot|SemrushBot|Semrush|SentiBot|SEOkicks|SeznamBot|ShowyouBot|SightupBot|SISTRIX|sitecheck\.internetseer\.com|siteexplorer.info|SiteSnagger|skygrid|Slackbot|Slurp|SmartDownload|Snoopy|Sogou|Sosospider|spaumbot|Steeler|sucker|SuperBot|Superfeedr|SuperHTTP|SurdotlyBot|Surfbot|tAkeOut|Teleport\ Pro|TinEye-bot|TinEye|Toata\ dragostea\ mea\ pentru\ diavola|Toplistbot|trendictionbot|TurnitinBot|turnit|Twitterbot|URI\:\:Fetch|urllib|Vagabondo|Vagabondo|vikspider|VoidEYE|VoilaBot|WBSearchBot|webalta|WebAuto|WebBandit|WebCollage|WebCopier|WebFetch|WebGo\ IS|WebLeacher|WebReaper|WebSauger|Website\ eXtractor|Website\ Quester|WebStripper|WebWhacker|WebZIP|Web\ Image\ Collector|Web\ Sucker|Wells\ Search\ II|WEP\ Search|WeSEE|Wget|Widow|WinInet|woobot|woopingbot|worldwebheritage.org|Wotbox|WPScan|WWWOFFLE|WWW\-Mechanize|Xaldon\ WebSpider|XoviBot|yacybot|Yahoo|YandexBot|Yandex|YisouSpider|zermelo|Zeus|zh-CN|ZmEu|ZumBot|ZyBorg) ) {
+        return 444;
+    }
+
+    location /robots.txt {
+        alias /usr/share/nginx/html/robots.txt;
+    }
+
+    # TLS 1.2 & 1.3 only
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    # Disable weak ciphers
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+
+    # SSL sessions
+    ssl_session_timeout 1d;
+    # ssl_session_cache dfine in stream and http
+    ssl_session_tickets off;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    # CKAN location with and without the slash appended (https://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+    location ${PROXY_CKAN_LOCATION}/ {
+        limit_req zone=mylimit burst=20 nodelay;
+        proxy_pass ${PROXY_CKAN_PROXY_PASS}/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        #proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+
+        proxy_read_timeout 90;
+        proxy_connect_timeout 90;
+        proxy_send_timeout 90;
+
+    }
+
+    location = ${PROXY_CKAN_LOCATION} {
+        limit_req zone=mylimit burst=20 nodelay;
+        proxy_pass ${PROXY_CKAN_PROXY_PASS}/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        #proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+
+        proxy_read_timeout 90;
+        proxy_connect_timeout 90;
+        proxy_send_timeout 90;
+
+    }
+
+    #location = ${PROXY_BDN_LOCATION} {
+    #    proxy_pass ${PROXY_BDN_PROXY_PASS}/;
+    #    proxy_set_header X-Forwarded-For $remote_addr;
+    #    proxy_set_header Host $host;
+    #    #proxy_cache cache;
+    #    proxy_cache_bypass $cookie_auth_tkt;
+    #    proxy_no_cache $cookie_auth_tkt;
+    #    proxy_cache_valid 30m;
+    #    proxy_cache_key $host$scheme$proxy_host$request_uri;
+    #}
+
+    # PYCSW location with and without the slash appended
+    location ${PROXY_PYCSW_LOCATION}/ {
+        limit_req zone=mylimit burst=20 nodelay;
+        proxy_pass ${PROXY_PYCSW_PROXY_PASS}/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        #proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+
+        proxy_read_timeout 90;
+        proxy_connect_timeout 90;
+        proxy_send_timeout 90;
+
+    }
+
+    location = ${PROXY_PYCSW_LOCATION} {
+        limit_req zone=mylimit burst=20 nodelay;
+        proxy_pass ${PROXY_PYCSW_PROXY_PASS}/;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        #proxy_cache cache;
+        proxy_cache_bypass $cookie_auth_tkt;
+        proxy_no_cache $cookie_auth_tkt;
+        proxy_cache_valid 30m;
+        proxy_cache_key $host$scheme$proxy_host$request_uri;
+
+        proxy_read_timeout 90;
+        proxy_connect_timeout 90;
+        proxy_send_timeout 90;
+
+    }
+
+    #location = ${PROXY_BDN_LOCATION} {
+    #    proxy_pass ${PROXY_BDN_PROXY_PASS}/;
+    #    proxy_set_header X-Forwarded-For $remote_addr;
+    #    proxy_set_header Host $host;
+    #    #proxy_cache cache;
+    #    proxy_cache_bypass $cookie_auth_tkt;
+    #    proxy_no_cache $cookie_auth_tkt;
+    #    proxy_cache_valid 30m;
+    #    proxy_cache_key $host$scheme$proxy_host$request_uri;
+    #}
+
+    error_page 400 401 402 403 404 405 406 407 408 409 410 411 412 413 414 415 416 417 418 421 422 423 424 425 426 428 429 431 451 500 501 502 503 504 505 506 507 508 510 511 /error.html;
+
+    # redirect server error pages to the static page /error.html
+    #
+    location = /error.html {
+      ssi on;
+      internal;
+      auth_basic off;
+      root /usr/share/nginx/html;
+    }
+
+}
