@@ -79,7 +79,8 @@ UWSGI_OPTS="--thunder-lock \
             --log-5xx \
             --auto-procname \
             --procname-prefix 'ckan-' \
-            --harakiri $UWSGI_HARAKIRI"
+            --harakiri $UWSGI_HARAKIRI \
+            --socket-timeout 60"
 
 if [ $? -eq 0 ]
 then
