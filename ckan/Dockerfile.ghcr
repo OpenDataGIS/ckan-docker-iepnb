@@ -1,4 +1,4 @@
-FROM ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.11
+FROM ghcr.io/opendatagis/ckan-iepnb:ckan-2.9.12
 
 # Set up environment variables
 ENV APP_DIR=/srv/app
