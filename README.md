@@ -22,7 +22,7 @@
 ## Overview
 Contains Docker images for the different components of CKAN Cloud and a Docker compose environment (based on [ckan](https://github.com/ckan/ckan)) for development and testing the [IEPNB](https://des.iepnb.es/catalogo) Open Data portal.
 
->**Warning**:<br>
+> [!WARNING]
 >This is a **custom installation of Docker Compose** with specific extensions for the [IEPNB](https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-espanol-patrimonio-natural-biodiv/default.aspx), spatial data and [GeoDCAT-AP](https://github.com/SEMICeu/GeoDCAT-AP)/[INSPIRE](https://github.com/INSPIRE-MIF/technical-guidelines) metadata [profiles](https://en.wikipedia.org/wiki/Geospatial_metadata). 
 >
 >For the basic ckan-docker-spatial installation, see: [CKAN Docker Compose](https://github.com/mjanez/ckan-docker)
@@ -71,7 +71,7 @@ The site is configured using environment variables that you can set in the `.env
 ### ckan-docker roadmap
 Information about extensions installed in the `main` image. More info described in the [Extending the base images](#extending-the-base-images)
 
->**Note**<br>
+>[!NOTE]
 > Switch branches to see the `roadmap` for other projects: [ckan-docker/branches](https://github.com/OpenDataGIS/ckan-docker/branches)
 
 
