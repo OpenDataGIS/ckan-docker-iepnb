@@ -576,7 +576,28 @@ If need to use a backup, restore it:
    ckan -c ckan.ini user remove user_example`
     ```
 
-    
+### Bugs (DEV)
+To create a cron job that first stops the containers, deletes all containers and clears all volumes except the specified ones, and then restarts the containers, you can follow these steps:
+
+1. **Edit the crontab file**:
+   Open the crontab file for the current user with the following command:
+
+   ```sh
+   crontab -e
+   ```
+
+2. **Add the cron job**:
+   Add the following lines to the crontab file to schedule the task at 17:00 and 5:00:
+
+   ```sh
+   0 17 * * * cd /opt/ckan/ckan-docker-iepnb/ && docker compose -f docker-compose.ghcr.yml down && docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q | grep -vE 'ckan-docker-iepnb_ckan_storage|ckan-docker-iepnb_pg_data') && docker compose -f docker-compose.ghcr.yml up -d --build
+   0 5 * * * cd /opt/ckan/ckan-docker-iepnb/ && docker compose -f docker-compose.ghcr.yml down && docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q | grep -vE 'ckan-docker-iepnb_ckan_storage|ckan-docker-iepnb_pg_data') && docker compose -f docker-compose.ghcr.yml up -d --build
+   ```
+
+  These lines indicate that the command will be executed at 17:00 (5 PM) and at 5:00 AM every day. 
+
+3. **Save and close the crontab file**: Save the changes and close the editor. The cron job will be scheduled automatically.
+
 ### Docker. Basic commands
 #### Linux post-install steps
 [These optional post-installation procedures](https://docs.docker.com/engine/install/linux-postinstall/) shows you how to configure your Linux host machine to work better with Docker. For example, managing docker with [a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
