@@ -1,4 +1,5 @@
-FROM ghcr.io/mjanez/ckan-spatial-dev:2.9.12
+# Using 2.9.11 instead of 2.9.12 because of setuptools version
+FROM ghcr.io/mjanez/ckan-base-spatial:ckan-2.9.11-dev
 
 # Set up environment variables
 ENV APP_DIR=/srv/app \

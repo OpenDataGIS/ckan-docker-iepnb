@@ -37,6 +37,8 @@ services:
         - TZ=${TZ}
     env_file:
       - .env
+    environment:
+      - CKAN___IEPNB__DEV_MODE=True
     logging:
       driver: "json-file"
       options:
