@@ -25,7 +25,7 @@ COPY req_fixes req_fixes
 ## PDFView - 0.0.8 ##
 ## Fluent - v1.0.1  (mjanez/Forked stable version) ##
 ## Scheming DCAT - v3.2.3 (mjanez/GeoDCAT-AP/NTI-RISP extended version) ##
-## IEPNB - v2.3.0 (OpenDataGIS/IEPNB) ##
+## IEPNB - v2.3.1 (OpenDataGIS/IEPNB) ##
 RUN echo ${TZ} > /etc/timezone && \
     if ! [ /usr/share/zoneinfo/${TZ} -ef /etc/localtime ]; then cp /usr/share/zoneinfo/${TZ} /etc/localtime; fi && \
     # Remove apk cache
@@ -63,7 +63,7 @@ RUN echo ${TZ} > /etc/timezone && \
     pip3 install --no-cache-dir -e git+https://github.com/mjanez/ckanext-schemingdcat.git@v3.2.3#egg=ckanext_schemingdcat && \
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-schemingdcat/requirements.txt && \
     echo "OpenDataGIS/ckanext-iepnb" && \
-    pip3 install --no-cache-dir -e git+https://${ACCESS_TOKEN}@github.com/OpenDataGIS/ckanext-iepnb.git@v2.3.0#egg=ckanext-iepnb && \
+    pip3 install --no-cache-dir -e git+https://${ACCESS_TOKEN}@github.com/OpenDataGIS/ckanext-iepnb.git@v2.3.1#egg=ckanext-iepnb && \
     pip3 install --no-cache-dir -r ${APP_DIR}/src/ckanext-iepnb/requirements.txt && \
     echo "OpenDataGIS/ckanext-sparql_interface" && \
     pip3 install --no-cache-dir -e git+https://github.com/OpenDataGIS/ckanext-sparql_interface.git@2.0.3-iepnb#egg=ckanext-sparql_interface && \
