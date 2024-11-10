@@ -9,15 +9,18 @@ volumes:
 
 
 services:
-  apache:
+  nginx:
     build:
-      context: apache/
+      context: nginx/
       dockerfile: Dockerfile
+      args:
+          PROXY_CKAN_LOCATION: ${PROXY_CKAN_LOCATION}
+          PROXY_PYCSW_LOCATION: ${PROXY_PYCSW_LOCATION}
     env_file:
       - .env
     environment:
       - CKAN_COMPOSE_SERVICE=${CKAN_DEV_COMPOSE_SERVICE}
-      - PROXY_CKAN_PROXY_PASS=http://${CKAN_DEV_COMPOSE_SERVICE}:${CKAN_PORT}
+      - PROXY_CKAN_PROXY_PASS=http://${CKAN_DEV_COMPOSE_SERVICE}:5000
     logging:
       driver: "json-file"
       options:
@@ -26,7 +29,8 @@ services:
     depends_on:
       - ${CKAN_DEV_COMPOSE_SERVICE}
     ports:
-      - "0.0.0.0:${APACHE_PORT_HOST}:${APACHE_PORT}"
+      - "0.0.0.0:${NGINX_PORT_HOST}:${NGINX_PORT}"
+      - "0.0.0.0:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
     restart: on-failure:3
   
   ckan-dev:
